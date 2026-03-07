@@ -18,3 +18,9 @@ TukeyHSD(md_anova)
 # cd anova
 cd_anova <- aov(tensile_strength_n ~ coating, data = tensile_strength_cd)
 summary(cd_anova)
+
+TukeyHSD(cd_anova)
+
+# seeing if groups are different from each other
+# group of DI and 0.1
+DI_0.1_anova <- aov()
