@@ -6,6 +6,7 @@ library(tidyverse)
 library(readxl)
 library(here)
 
+# clean tensile strength data
 # Read in data from Excel
 tensile_data <- read_excel("Tensile_Strength_WI2026.xlsx",
                                       sheet = "New Data") |>
@@ -31,5 +32,7 @@ tensile_strength_cd <- tensile_data |>
 save(tensile_data, file = here("data/tensile_data.rda"))
 save(tensile_strength_md, file = here("data/tensile_strength_md.rda"))
 save(tensile_strength_cd, file = here("data/tensile_strength_cd.rda"))
+
+# clean water absorption data 
 
 
