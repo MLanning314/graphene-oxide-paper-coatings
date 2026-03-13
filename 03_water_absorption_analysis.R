@@ -36,7 +36,7 @@ hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
                "15% WBBC" = 15)      
   ) +
   labs(
-    title = "DI water vs. 0.1% GO water absorption of HelloFresh",
+    title = "DI water, 0.1% GO, 15% WBBC water absorption of HelloFresh",
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -52,4 +52,4 @@ hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
   )
 
 ggsave("figures/hf_1_img.png", plot = hf_1_img,
-       width = 8, height = 5, units = "in", dpi = 600)
+       width = 10, height = 6, units = "in", dpi = 600)
