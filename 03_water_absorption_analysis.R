@@ -101,7 +101,7 @@ hf_2_img <- ggplot(hf_2, aes(x = time, y = mean_raw,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = mean_raw - sd_raw,
                     ymax = mean_raw + sd_raw),
-                width = 0.5, linewidth = 0.5) +
+                width = 0.2, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "black",
