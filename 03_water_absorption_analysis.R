@@ -53,3 +53,34 @@ hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
 
 ggsave("figures/hf_1_img.png", plot = hf_1_img,
        width = 10, height = 6, units = "in", dpi = 600)
+
+# anova for DI water, 0.1% GO, 15% WBBC
+
+fit_oneway_4.1.1 <- aov(mean_raw ~ coating, data = hf_1)
+summary(fit_oneway_4.1.1)
+
+# If you want to account for time as well (recommended)
+fit_twoway_4.1.1 <- aov(mean_raw ~ coating * time, data = hf_1)
+summary(fit_twoway_4.1.1)
+
+TukeyHSD(fit_oneway_4.1.1, "coating")
+
+hf_1 |> 
+  group_by(coating) |> 
+  summarise(mean_abs = round(mean(mean_raw), 3), 
+            sd_abs = round(sd(mean_raw), 3))
+
+# get mean and sd at 60 minutes to see absorption differences
+water_data_HF |> 
+  filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC"), 
+         time == "60") |> 
+  group_by(coating) |> 
+  summarise(
+    mean_abs = round(mean(raw_weight, na.rm = TRUE), 3),
+    sd_abs   = round(sd(raw_weight, na.rm = TRUE), 3),
+    n        = n(),  # sample size per group
+    .groups = "drop"
+  )
+
+# formatting for figure 4.1.2
+
