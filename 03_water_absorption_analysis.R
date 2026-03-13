@@ -21,29 +21,30 @@ hf_1 <- water_data_HF |>
 ggplot(hf_1, aes(x = time, y = mean_raw,
                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
-  geom_point(size = 3) +
+  geom_point(size = 4) +
   geom_errorbar(aes(ymin = mean_raw - sd_raw,
                     ymax = mean_raw + sd_raw),
-                width = 2, linewidth = 0.6) +
+                width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "0.1% GO" = "firebrick")
   ) +
   scale_shape_manual(
-    values = c("DI Water" = 16,     # filled circle
-               "0.1% GO" = 17)      # filled triangle
+    values = c("DI Water" = 16,     
+               "0.1% GO" = 17)      
   ) +
   labs(
-    title = "HelloFresh",
-    x = expression(italic(time)~"(min)"),
-    y = "absorbed water weight / unit dry paper weight (gm/gm)",
+    title = "DI water vs. 0.1% GO water absorption of HelloFresh",
+    x = "Time (min)",
+    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
     shape = NULL
   ) +
-  theme_classic(base_size = 14) +
+  theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 18),
-    axis.title.x = element_text(face = "italic"),
+    plot.title = element_text(hjust = 0.5, size = 16),
+    axis.title.x = element_text(face = "plain"),
     legend.position = c(0.75, 0.25),
-    legend.background = element_blank()
+    legend.background = element_blank(),
+    legend.text = element_text(size = 12)
   )
