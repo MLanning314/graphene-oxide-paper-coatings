@@ -35,4 +35,9 @@ save(tensile_strength_cd, file = here("data/tensile_strength_cd.rda"))
 
 # clean water absorption data 
 
+water_data_HF <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
+                            sheet = "Formatting for R") |>
+  janitor::clean_names() 
 
+# save data
+save(water_data_HF, file = here("data/water_data_HF.rda"))
