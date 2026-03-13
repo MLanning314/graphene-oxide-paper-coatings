@@ -11,7 +11,7 @@ load(here("data/water_data_HF.rda"))
 # formatting for figure 4.1.1
 
 hf_1 <- water_data_HF |>
-  filter(coating %in% c("DI Water", "0.1% GO")) |>
+  filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
   group_by(time, coating) |>
   summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
             sd_raw = sd(raw_weight, na.rm = TRUE),
@@ -27,11 +27,13 @@ hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
-               "0.1% GO" = "firebrick")
+               "0.1% GO" = "firebrick",
+               "15% WBBC" = "goldenrod1")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,     
-               "0.1% GO" = 17)      
+               "0.1% GO" = 17,
+               "15% WBBC" = 15)      
   ) +
   labs(
     title = "DI water vs. 0.1% GO water absorption of HelloFresh",
