@@ -18,7 +18,7 @@ hf_1 <- water_data_HF |>
             .groups = "drop")
 
 
-ggplot(hf_1, aes(x = time, y = mean_raw,
+hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -48,3 +48,6 @@ ggplot(hf_1, aes(x = time, y = mean_raw,
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
+
+ggsave("figures/hf_1_img.png", plot = hf_1_img,
+       width = 8, height = 5, units = "in", dpi = 600)
