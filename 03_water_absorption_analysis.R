@@ -12,6 +12,7 @@ load(here("data/water_data_HF.rda"))
 
 hf_1 <- water_data_HF |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
+  mutate(time = as.numeric(time)) |>
   group_by(time, coating) |>
   summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
             sd_raw = sd(raw_weight, na.rm = TRUE),
@@ -84,3 +85,52 @@ water_data_HF |>
 
 # formatting for figure 4.1.2
 
+hf_2 <- water_data_HF |>
+  filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.20% GO", 
+                        "0.5% GO")) |>
+  mutate(time = as.numeric(time)) |>
+  group_by(time, coating) |>
+  summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
+            sd_raw = sd(raw_weight, na.rm = TRUE),
+            .groups = "drop")
+
+
+hf_2_img <- ggplot(hf_2, aes(x = time, y = mean_raw,
+                             color = coating, shape = coating)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = mean_raw - sd_raw,
+                    ymax = mean_raw + sd_raw),
+                width = 0.5, linewidth = 0.5) +
+  scale_color_manual(
+    values = c("DI Water" = "dodgerblue",
+               "Stock" = "black",
+               "0.1% GO" = "firebrick",
+               "0.20% GO" = "goldenrod1",
+               "0.5% GO" = "springgreen1")
+  ) +
+  scale_shape_manual(
+    values = c("DI Water" = 16,
+               "Stock" = 15,
+               "0.1% GO" = 17,
+               "0.20% GO" = 18,
+               "0.5% GO" = 8)      
+  ) +
+  labs(
+    title = "GO-coatings vs. controls water absorption of HelloFresh",
+    x = "Time (min)",
+    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    axis.title.x = element_text(face = "plain"),
+    legend.position = c(0.75, 0.20),
+    legend.background = element_blank(),
+    legend.text = element_text(size = 12)
+  )
+
+ggsave("figures/hf_2_img.png", plot = hf_2_img,
+       width = 10, height = 6, units = "in", dpi = 600)
