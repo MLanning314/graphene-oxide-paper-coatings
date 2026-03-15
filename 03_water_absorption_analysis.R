@@ -4,6 +4,7 @@
 # Load Packages 
 library(tidyverse)
 library(here)
+library(car)
 
 # Load Data
 load(here("data/water_data_HF.rda"))
@@ -90,7 +91,7 @@ hf_2_img <- ggplot(hf_2_fig, aes(x = time, y = absorption,
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
-               "Stock" = "black",
+               "Stock" = "grey65",
                "0.1% GO" = "firebrick",
                "0.2% GO" = "goldenrod1",
                "0.5% GO" = "springgreen1")
@@ -123,14 +124,50 @@ ggsave("figures/hf_2_img.png", plot = hf_2_img,
 
 # anova for DI water, 0.1% GO, 0.2% GO, 0.5% GO, and stock
 
-fit_oneway_4.1.2 <- aov(mean_raw ~ coating, data = hf_2)
+hf_2 <- water_data_HF |>
+  filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.20% GO", "0.5% GO")) |>
+  mutate(time = as.factor(time)) 
+
+hf_2_60 <- hf_2 |>
+  filter(time == 60)
+
+fit_oneway_4.1.2 <- aov(raw_weight ~ coating, data = hf_2)
 summary(fit_oneway_4.1.2)
 
+fit_oneway_4.1.2_60 <- aov(raw_weight ~ coating, data = hf_2_60)
+summary(fit_oneway_4.1.2_60)
+
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.2 <- aov(mean_raw ~ coating * time, data = hf_2)
+fit_twoway_4.1.2 <- aov(raw_weight ~ coating * time, data = hf_2)
 summary(fit_twoway_4.1.2)
 
 TukeyHSD(fit_oneway_4.1.2, "coating")
+TukeyHSD(fit_oneway_4.1.2_60, "coating")
+
+# see differences in variance of coatings
+leveneTest(raw_weight ~ coating, data = hf_2)
+
+# visualize coating variability
+fig_4.1.2_variability <- ggplot(hf_2, aes(x = coating, y = raw_weight, fill = coating)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c(
+    "DI Water" = "dodgerblue",   
+    "Stock" = "grey65",      
+    "0.1% GO" = "firebrick",   
+    "0.20% GO" = "goldenrod1",    
+    "0.5% GO" = "springgreen1"     
+  )) +
+  ylab("Water Absorption") +
+  xlab("Coating") +
+  theme_minimal() +
+  theme(legend.position = "none")  
+
+hf_2 |>
+  filter(time == 60) |>
+  group_by(coating) |>
+  summarize(
+    sd_absorption = sd(raw_weight)
+  )
 
 
 # get mean and sd at 60 minutes to see absorption differences
@@ -146,3 +183,23 @@ water_data_HF |>
     .groups = "drop"
   )
 
+# figure 4.1.13
+hf_3 <- water_data_HF |>
+  filter(coating %in% c("0.20% GO", "0.5% GO", "15% WBBC")) |>
+  mutate(time = as.factor(time)) 
+
+hf_3_60 <- hf_3 |>
+  filter(time == 60)
+
+fit_oneway_4.1.3 <- aov(raw_weight ~ coating, data = hf_3)
+summary(fit_oneway_4.1.3)
+
+fit_oneway_4.1.3_60 <- aov(raw_weight ~ coating, data = hf_3_60)
+summary(fit_oneway_4.1.3_60)
+
+# If you want to account for time as well (recommended)
+fit_twoway_4.1.3 <- aov(raw_weight ~ coating * time, data = hf_3)
+summary(fit_twoway_4.1.3)
+
+TukeyHSD(fit_oneway_4.1.3, "coating")
+TukeyHSD(fit_oneway_4.1.3_60, "coating")
