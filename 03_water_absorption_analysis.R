@@ -74,57 +74,32 @@ summary(fit_twoway_4.1.1)
 TukeyHSD(fit_oneway_4.1.1_60)
 
 
-# get mean and sd at 60 minutes to see absorption differences
-water_data_HF |> 
-  filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC"), 
-         time == "60") |> 
-  group_by(coating) |> 
-  summarise(
-    mean_abs = round(mean(raw_weight, na.rm = TRUE), 3),
-    sd_abs   = round(sd(raw_weight, na.rm = TRUE), 3),
-    n        = n(),  # sample size per group
-    .groups = "drop"
-  )
-
-water_data_HF |>
-  filter(time %in% c(0, 60)) |>
-  group_by(coating, time) |>
-  summarise(
-    mean_w = mean( raw_weight, na.rm = TRUE),
-                  sd_w = sd(raw_weight, na.rm = TRUE),
-    .groups = "drop")
 
 # formatting for figure 4.1.2
-
-hf_2 <- water_data_HF |>
-  filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.20% GO", 
-                        "0.5% GO")) |>
-  mutate(time = as.numeric(time)) |>
-  group_by(time, coating) |>
-  summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
-            sd_raw = sd(raw_weight, na.rm = TRUE),
-            .groups = "drop")
+hf_2_fig <- water_data_HF_fig |>
+  filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", "0.5% GO")) |>
+  mutate(time = as.numeric(as.character(time))) 
 
 
-hf_2_img <- ggplot(hf_2, aes(x = time, y = mean_raw,
+hf_2_img <- ggplot(hf_2_fig, aes(x = time, y = absorption,
                              color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
-  geom_errorbar(aes(ymin = mean_raw - sd_raw,
-                    ymax = mean_raw + sd_raw),
-                width = 0.2, linewidth = 0.5) +
+  geom_errorbar(aes(ymin = absorption - rms,
+                    ymax = absorption + rms),
+                width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "black",
                "0.1% GO" = "firebrick",
-               "0.20% GO" = "goldenrod1",
+               "0.2% GO" = "goldenrod1",
                "0.5% GO" = "springgreen1")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
                "Stock" = 15,
                "0.1% GO" = 17,
-               "0.20% GO" = 18,
+               "0.2% GO" = 18,
                "0.5% GO" = 8)      
   ) +
   labs(
