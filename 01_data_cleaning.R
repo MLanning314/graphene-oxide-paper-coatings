@@ -44,10 +44,14 @@ water_data_HF <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
 # save data
 save(water_data_HF, file = here("data/water_data_HF.rda"))
 
-water_data_HF <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
+water_data_HF_fig <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
                             sheet = "Figures for R") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
+
+# save data
+save(water_data_HF_fig, file = here("data/water_data_HF_fig.rda"))
+
 
 
