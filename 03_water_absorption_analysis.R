@@ -66,10 +66,6 @@ summary(fit_twoway_4.1.1)
 
 TukeyHSD(fit_oneway_4.1.1, "coating")
 
-hf_1 |> 
-  group_by(coating) |> 
-  summarise(mean_abs = round(mean(mean_raw), 3), 
-            sd_abs = round(sd(mean_raw), 3))
 
 # get mean and sd at 60 minutes to see absorption differences
 water_data_HF |> 
@@ -82,6 +78,14 @@ water_data_HF |>
     n        = n(),  # sample size per group
     .groups = "drop"
   )
+
+water_data_HF |>
+  filter(time %in% c(0, 60)) |>
+  group_by(coating, time) |>
+  summarise(
+    mean_w = mean( raw_weight, na.rm = TRUE),
+                  sd_w = sd(raw_weight, na.rm = TRUE),
+    .groups = "drop")
 
 # formatting for figure 4.1.2
 
@@ -134,3 +138,29 @@ hf_2_img <- ggplot(hf_2, aes(x = time, y = mean_raw,
 
 ggsave("figures/hf_2_img.png", plot = hf_2_img,
        width = 10, height = 6, units = "in", dpi = 600)
+
+# anova for DI water, 0.1% GO, 0.2% GO, 0.5% GO, and stock
+
+fit_oneway_4.1.2 <- aov(mean_raw ~ coating, data = hf_2)
+summary(fit_oneway_4.1.2)
+
+# If you want to account for time as well (recommended)
+fit_twoway_4.1.2 <- aov(mean_raw ~ coating * time, data = hf_2)
+summary(fit_twoway_4.1.2)
+
+TukeyHSD(fit_oneway_4.1.2, "coating")
+
+
+# get mean and sd at 60 minutes to see absorption differences
+water_data_HF |> 
+  filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.20% GO", 
+                          "0.5% GO"),
+         time == "60") |> 
+  group_by(coating) |> 
+  summarise(
+    mean_abs = round(mean(raw_weight, na.rm = TRUE), 3),
+    sd_abs   = round(sd(raw_weight, na.rm = TRUE), 3),
+    n        = n(),  # sample size per group
+    .groups = "drop"
+  )
+
