@@ -56,20 +56,22 @@ ggsave("figures/hf_1_img.png", plot = hf_1_img,
 
 hf_1 <- water_data_HF |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
-  mutate(time = as.numeric(as.character(time))) |>
-  group_by(time, coating) |>
-  summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
-            sd_raw = sd(raw_weight, na.rm = TRUE),
-            .groups = "drop")
+  mutate(time = as.factor(time)) 
 
-fit_oneway_4.1.1 <- aov(mean_raw ~ coating, data = hf_1)
+hf_1_60 <- hf_1 |>
+  filter(time == 60)
+  
+fit_oneway_4.1.1 <- aov(raw_weight ~ coating, data = hf_1)
+summary(fit_oneway_4.1.1)
+
+fit_oneway_4.1.1_60 <- aov(raw_weight ~ coating, data = hf_1_60)
 summary(fit_oneway_4.1.1)
 
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.1 <- aov(mean_raw ~ coating * time, data = hf_1)
+fit_twoway_4.1.1 <- aov(raw_weight ~ coating * time, data = hf_1)
 summary(fit_twoway_4.1.1)
 
-TukeyHSD(fit_oneway_4.1.1, "coating")
+TukeyHSD(fit_oneway_4.1.1_60)
 
 
 # get mean and sd at 60 minutes to see absorption differences
