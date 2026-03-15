@@ -12,7 +12,7 @@ load(here("data/water_data_HF.rda"))
 
 hf_1 <- water_data_HF |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
-  mutate(time = as.numeric(time)) |>
+  mutate(time = as.numeric(as.character(time))) |>
   group_by(time, coating) |>
   summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
             sd_raw = sd(raw_weight, na.rm = TRUE),
