@@ -7,24 +7,20 @@ library(here)
 
 # Load Data
 load(here("data/water_data_HF.rda"))
+load(here("data/water_data_HF_fig.rda"))
 
 # formatting for figure 4.1.1
 
-hf_1 <- water_data_HF |>
+hf_1_fig <- water_data_HF_fig |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
-  mutate(time = as.numeric(as.character(time))) |>
-  group_by(time, coating) |>
-  summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
-            sd_raw = sd(raw_weight, na.rm = TRUE),
-            .groups = "drop")
+  mutate(time = as.numeric(as.character(time))) 
 
-
-hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
-                 color = coating, shape = coating)) +
+hf_1_img <- ggplot(hf_1_fig, aes(x = time, y = absorption,
+                             color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
-  geom_errorbar(aes(ymin = mean_raw - sd_raw,
-                    ymax = mean_raw + sd_raw),
+  geom_errorbar(aes(ymin = absorption - rms,
+                    ymax = absorption + rms),
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
@@ -32,10 +28,11 @@ hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
                "15% WBBC" = "goldenrod1")
   ) +
   scale_shape_manual(
-    values = c("DI Water" = 16,     
+    values = c("DI Water" = 16,
                "0.1% GO" = 17,
-               "15% WBBC" = 15)      
+               "15% WBBC" = 15)
   ) +
+  scale_x_continuous(breaks = seq(0, 60, 10)) +
   labs(
     title = "DI water, 0.1% GO, 15% WBBC water absorption of HelloFresh",
     x = "Time (min)",
@@ -47,7 +44,7 @@ hf_1_img <- ggplot(hf_1, aes(x = time, y = mean_raw,
   theme(
     plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
-    legend.position = c(0.75, 0.25),
+    legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
@@ -56,6 +53,14 @@ ggsave("figures/hf_1_img.png", plot = hf_1_img,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for DI water, 0.1% GO, 15% WBBC
+
+hf_1 <- water_data_HF |>
+  filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
+  mutate(time = as.numeric(as.character(time))) |>
+  group_by(time, coating) |>
+  summarise(mean_raw = mean(raw_weight, na.rm = TRUE),
+            sd_raw = sd(raw_weight, na.rm = TRUE),
+            .groups = "drop")
 
 fit_oneway_4.1.1 <- aov(mean_raw ~ coating, data = hf_1)
 summary(fit_oneway_4.1.1)
