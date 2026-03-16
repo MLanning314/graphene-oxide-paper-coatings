@@ -379,3 +379,29 @@ hf_5_img <- ggplot(hf_5_fig, aes(x = time, y = absorption,
 ggsave("figures/hf_5_img.png", plot = hf_5_img,
        width = 10, height = 6, units = "in", dpi = 600)
 
+# anova
+
+hf_5 <- water_data_HF |>
+  filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
+                        "0.1% GO")) |>
+  mutate(time = as.factor(time)) 
+
+hf_5_60 <- hf_5 |>
+  filter(time == 60)
+
+fit_oneway_4.1.5 <- aov(raw_weight ~ coating, data = hf_5)
+summary(fit_oneway_4.1.5)
+
+fit_oneway_4.1.5_60 <- aov(raw_weight ~ coating, data = hf_5_60)
+summary(fit_oneway_4.1.5_60)
+
+# If you want to account for time as well (recommended)
+fit_twoway_4.1.5 <- aov(raw_weight ~ coating * time, data = hf_5)
+summary(fit_twoway_4.1.5)
+
+TukeyHSD(fit_oneway_4.1.5, "coating")
+TukeyHSD(fit_oneway_4.1.5_60, "coating")
+
+
+
+
