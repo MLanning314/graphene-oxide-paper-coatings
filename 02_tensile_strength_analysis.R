@@ -60,6 +60,7 @@ fig_3.2.1 <- ggplot(summary_3.2.1, aes(x = coating, y = mean_strength, fill = co
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none",
         plot.title = element_text(hjust = 0.5),
+        panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank())
 
 ggsave("figures/fig_3.2.1.png", plot = fig_3.2.1,
