@@ -247,3 +247,59 @@ summary(fit_twoway_4.1.3)
 
 TukeyHSD(fit_oneway_4.1.3, "coating")
 TukeyHSD(fit_oneway_4.1.3_60, "coating")
+
+# figure 4.1.4
+hf_4_fig <- water_data_HF_fig |>
+  filter(coating %in% c("DI Water", "Stock", "1% WBBC", "5% WBBC", 
+                        "15% WBBC", "25% WBBC")) |>
+  mutate(time = as.numeric(as.character(time))) |>
+  mutate(coating = factor(coating,
+                          levels = c("DI Water",
+                                     "Stock",
+                                     "1% WBBC",
+                                     "5% WBBC",
+                                     "15% WBBC",
+                                     "25% WBBC")))
+
+hf_4_img <- ggplot(hf_4_fig, aes(x = time, y = absorption,
+                                 color = coating, shape = coating)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = absorption - rms,
+                    ymax = absorption + rms),
+                width = 1, linewidth = 0.5) +
+  scale_color_manual(
+    values = c("DI Water" = "dodgerblue",
+               "Stock" = "grey65",
+               "1% WBBC" = "firebrick",
+               "5% WBBC" = "springgreen1",
+               "15% WBBC" = "goldenrod1",
+               "25% WBBC" = "mediumpurple1")
+  ) +
+  scale_shape_manual(
+    values = c("DI Water" = 16,
+               "Stock" = 4,
+               "1% WBBC" = 15,
+               "5% WBBC" = 18,
+               "15% WBBC" = 8,
+               "25% WBBC" = 17)
+  ) +
+  scale_x_continuous(breaks = seq(0, 60, 10)) +
+  labs(
+    title = "Water absorption of WBBC-coated HelloFresh",
+    x = "Time (min)",
+    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    axis.title.x = element_text(face = "plain"),
+    legend.position.inside = c(0.75, 0.25),
+    legend.background = element_blank(),
+    legend.text = element_text(size = 12)
+  )
+
+ggsave("figures/hf_4_img.png", plot = hf_4_img,
+       width = 10, height = 6, units = "in", dpi = 600)
