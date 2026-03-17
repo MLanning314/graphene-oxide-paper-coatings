@@ -101,7 +101,7 @@ fig_3.2.2 <- ggplot(summary_3.2.2, aes(x = coating, y = mean_strength, fill = co
     "15% WBBC + 0.1% GO" = "seagreen2"
   )) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 40)) +
-  labs(x = "", y = "Tensile Strength (N)", title = "Machine direction tensile strength of GO-coated HelloFresh sheets") +
+  labs(x = "", y = "Tensile Strength (N)", title = "Cross-machine direction tensile strength of GO-coated HelloFresh sheets") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none",
@@ -113,9 +113,9 @@ ggsave("figures/fig_3.2.2.png", plot = fig_3.2.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # machine direction anova
-md_anova <- aov(tensile_strength_n ~ coating, data = tensile_strength_md)
-summary(md_anova)
+cd_anova <- aov(tensile_strength_n ~ coating, data = tensile_strength_cd)
+summary(cd_anova)
 
-TukeyHSD(md_anova)
+TukeyHSD(cd_anova)
 
 
