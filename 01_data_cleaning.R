@@ -53,7 +53,20 @@ water_data_HF_fig <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
 # save data
 save(water_data_HF_fig, file = here("data/water_data_HF_fig.rda"))
 
-water_data_metsa <- read_excel()
+water_data_metsa <- read_excel("Metsa_Water_Absorption.xlsx",
+                               sheet = "Formatting for R") |>
+  janitor::clean_names() |>
+  mutate(coating = as.factor(coating),
+         time = as.factor(time))
 
+water_data_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
+                                   sheet = "Figures for R") |>
+  janitor::clean_names() |>
+  mutate(coating = as.factor(coating),
+         time = as.factor(time))
+
+# save data
+save(water_data_metsa, file = here("data/water_data_metsa.rda"))
+save(water_data_metsa_fig, file = here("data/water_data_metsa_fig.rda"))
 
 
