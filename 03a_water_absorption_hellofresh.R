@@ -1,5 +1,5 @@
 
-# Analysis of Data for Water Absorption
+# Analysis of Data for Water Absorption - HelloFresh
 
 # Load Packages 
 library(tidyverse)
@@ -10,7 +10,7 @@ library(car)
 load(here("data/water_data_HF.rda"))
 load(here("data/water_data_HF_fig.rda"))
 
-# formatting for figure 4.1.1
+# formatting for figure 3.1.1
 
 hf_1_fig <- water_data_HF_fig |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
@@ -62,21 +62,21 @@ hf_1 <- water_data_HF |>
 hf_1_60 <- hf_1 |>
   filter(time == 60)
   
-fit_oneway_4.1.1 <- aov(raw_weight ~ coating, data = hf_1)
-summary(fit_oneway_4.1.1)
+fit_oneway_3.1.1 <- aov(raw_weight ~ coating, data = hf_1)
+summary(fit_oneway_3.1.1)
 
-fit_oneway_4.1.1_60 <- aov(raw_weight ~ coating, data = hf_1_60)
-summary(fit_oneway_4.1.1)
+fit_oneway_3.1.1_60 <- aov(raw_weight ~ coating, data = hf_1_60)
+summary(fit_oneway_3.1.1)
 
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.1 <- aov(raw_weight ~ coating * time, data = hf_1)
-summary(fit_twoway_4.1.1)
+fit_twoway_3.1.1 <- aov(raw_weight ~ coating * time, data = hf_1)
+summary(fit_twoway_3.1.1)
 
-TukeyHSD(fit_oneway_4.1.1_60)
+TukeyHSD(fit_oneway_3.1.1_60)
 
 
 
-# formatting for figure 4.1.2
+# formatting for figure 3.1.2
 hf_2_fig <- water_data_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", "0.5% GO")) |>
   mutate(time = as.numeric(as.character(time))) 
@@ -131,24 +131,24 @@ hf_2 <- water_data_HF |>
 hf_2_60 <- hf_2 |>
   filter(time == 60)
 
-fit_oneway_4.1.2 <- aov(raw_weight ~ coating, data = hf_2)
-summary(fit_oneway_4.1.2)
+fit_oneway_3.1.2 <- aov(raw_weight ~ coating, data = hf_2)
+summary(fit_oneway_3.1.2)
 
-fit_oneway_4.1.2_60 <- aov(raw_weight ~ coating, data = hf_2_60)
-summary(fit_oneway_4.1.2_60)
+fit_oneway_3.1.2_60 <- aov(raw_weight ~ coating, data = hf_2_60)
+summary(fit_oneway_3.1.2_60)
 
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.2 <- aov(raw_weight ~ coating * time, data = hf_2)
-summary(fit_twoway_4.1.2)
+fit_twoway_3.1.2 <- aov(raw_weight ~ coating * time, data = hf_2)
+summary(fit_twoway_3.1.2)
 
-TukeyHSD(fit_oneway_4.1.2, "coating")
-TukeyHSD(fit_oneway_4.1.2_60, "coating")
+TukeyHSD(fit_oneway_3.1.2, "coating")
+TukeyHSD(fit_oneway_3.1.2_60, "coating")
 
 # see differences in variance of coatings
 leveneTest(raw_weight ~ coating, data = hf_2)
 
 # visualize coating variability
-fig_4.1.2_variability <- ggplot(hf_2, aes(x = coating, y = raw_weight, fill = coating)) +
+fig_3.1.2_variability <- ggplot(hf_2, aes(x = coating, y = raw_weight, fill = coating)) +
   geom_boxplot() +
   scale_fill_manual(values = c(
     "DI Water" = "dodgerblue",   
@@ -183,7 +183,7 @@ water_data_HF |>
     .groups = "drop"
   )
 
-# figure 4.1.13
+# figure 3.1.3
 
 hf_3_fig <- water_data_HF_fig |>
   filter(coating %in% c("0.2% GO", "0.5% GO", "15% WBBC")) |>
@@ -235,20 +235,20 @@ hf_3 <- water_data_HF |>
 hf_3_60 <- hf_3 |>
   filter(time == 60)
 
-fit_oneway_4.1.3 <- aov(raw_weight ~ coating, data = hf_3)
-summary(fit_oneway_4.1.3)
+fit_oneway_3.1.3 <- aov(raw_weight ~ coating, data = hf_3)
+summary(fit_oneway_3.1.3)
 
-fit_oneway_4.1.3_60 <- aov(raw_weight ~ coating, data = hf_3_60)
-summary(fit_oneway_4.1.3_60)
+fit_oneway_3.1.3_60 <- aov(raw_weight ~ coating, data = hf_3_60)
+summary(fit_oneway_3.1.3_60)
 
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.3 <- aov(raw_weight ~ coating * time, data = hf_3)
-summary(fit_twoway_4.1.3)
+fit_twoway_3.1.3 <- aov(raw_weight ~ coating * time, data = hf_3)
+summary(fit_twoway_3.1.3)
 
-TukeyHSD(fit_oneway_4.1.3, "coating")
-TukeyHSD(fit_oneway_4.1.3_60, "coating")
+TukeyHSD(fit_oneway_3.1.3, "coating")
+TukeyHSD(fit_oneway_3.1.3_60, "coating")
 
-# figure 4.1.4
+# figure 3.1.4
 hf_4_fig <- water_data_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "1% WBBC", "5% WBBC", 
                         "15% WBBC", "25% WBBC")) |>
@@ -314,22 +314,22 @@ hf_4 <- water_data_HF |>
 hf_4_60 <- hf_4 |>
   filter(time == 60)
 
-fit_oneway_4.1.4 <- aov(raw_weight ~ coating, data = hf_4)
-summary(fit_oneway_4.1.4)
+fit_oneway_3.1.4 <- aov(raw_weight ~ coating, data = hf_4)
+summary(fit_oneway_3.1.4)
 
-fit_oneway_4.1.4_60 <- aov(raw_weight ~ coating, data = hf_4_60)
-summary(fit_oneway_4.1.4_60)
+fit_oneway_3.1.4_60 <- aov(raw_weight ~ coating, data = hf_4_60)
+summary(fit_oneway_3.1.4_60)
 
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.4 <- aov(raw_weight ~ coating * time, data = hf_4)
-summary(fit_twoway_4.1.4)
+fit_twoway_3.1.4 <- aov(raw_weight ~ coating * time, data = hf_4)
+summary(fit_twoway_3.1.4)
 
-TukeyHSD(fit_oneway_4.1.4, "coating")
-TukeyHSD(fit_oneway_4.1.4_60, "coating")
+TukeyHSD(fit_oneway_3.1.4, "coating")
+TukeyHSD(fit_oneway_3.1.4_60, "coating")
 
 leveneTest(raw_weight ~ coating, data = hf_4)
 
-# figure 4.1.5
+# figure 3.1.5
 hf_5_fig <- water_data_HF_fig |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
@@ -389,18 +389,18 @@ hf_5 <- water_data_HF |>
 hf_5_60 <- hf_5 |>
   filter(time == 60)
 
-fit_oneway_4.1.5 <- aov(raw_weight ~ coating, data = hf_5)
-summary(fit_oneway_4.1.5)
+fit_oneway_3.1.5 <- aov(raw_weight ~ coating, data = hf_5)
+summary(fit_oneway_3.1.5)
 
-fit_oneway_4.1.5_60 <- aov(raw_weight ~ coating, data = hf_5_60)
-summary(fit_oneway_4.1.5_60)
+fit_oneway_3.1.5_60 <- aov(raw_weight ~ coating, data = hf_5_60)
+summary(fit_oneway_3.1.5_60)
 
 # If you want to account for time as well (recommended)
-fit_twoway_4.1.5 <- aov(raw_weight ~ coating * time, data = hf_5)
-summary(fit_twoway_4.1.5)
+fit_twoway_3.1.5 <- aov(raw_weight ~ coating * time, data = hf_5)
+summary(fit_twoway_3.1.5)
 
-TukeyHSD(fit_oneway_4.1.5, "coating")
-TukeyHSD(fit_oneway_4.1.5_60, "coating")
+TukeyHSD(fit_oneway_3.1.5, "coating")
+TukeyHSD(fit_oneway_3.1.5_60, "coating")
 
 
 
