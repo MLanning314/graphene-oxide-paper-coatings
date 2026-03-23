@@ -53,5 +53,7 @@ water_data_HF_fig <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
 # save data
 save(water_data_HF_fig, file = here("data/water_data_HF_fig.rda"))
 
+water_data_metsa <- read_excel()
+
 
 

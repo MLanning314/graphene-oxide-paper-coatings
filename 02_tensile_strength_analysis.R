@@ -112,10 +112,13 @@ fig_3.2.2 <- ggplot(summary_3.2.2, aes(x = coating, y = mean_strength, fill = co
 ggsave("figures/fig_3.2.2.png", plot = fig_3.2.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# machine direction anova
+# cross machine direction anova
 cd_anova <- aov(tensile_strength_n ~ coating, data = tensile_strength_cd)
 summary(cd_anova)
 
 TukeyHSD(cd_anova)
+
+leveneTest(tensile_strength_n ~ coating, data = tensile_strength_md)
+leveneTest(tensile_strength_n ~ coating, data = tensile_strength_cd)
 
 
