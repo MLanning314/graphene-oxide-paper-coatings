@@ -143,3 +143,4 @@ TukeyHSD(fit_oneway_4.1.2)
 TukeyHSD(fit_twoway_4.1.2)
 TukeyHSD(fit_oneway_4.1.2_60)
 
+leveneTest(raw_weight ~ coating, data = metsa_2)

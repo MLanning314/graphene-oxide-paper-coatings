@@ -69,4 +69,9 @@ water_data_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
 save(water_data_metsa, file = here("data/water_data_metsa.rda"))
 save(water_data_metsa_fig, file = here("data/water_data_metsa_fig.rda"))
 
+wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
+                               sheet = "Formatting for R") |>
+  janitor::clean_names() |>
+  mutate(coating = as.factor(coating))
+
 
