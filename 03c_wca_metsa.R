@@ -5,6 +5,7 @@
 library(tidyverse)
 library(here)
 library(car)
+library(emmeans)
 
 # Load Data
 load(here("data/wca_data_metsa.rda"))
@@ -16,7 +17,7 @@ wca_1_fig <- wca_data_metsa |>
 wca_1_img <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
                                        color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
-  geom_point(size = 4) +
+  geom_point(size = 2) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
@@ -27,7 +28,7 @@ wca_1_img <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
                "0.1% GO" = 17,
                "Stock" = 15)
   ) +
-  scale_x_continuous(breaks = seq(0, 60, 10)) +
+  scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
     title = "DI water, Stock, 0.1% GO water contact angle",
     x = "Time (min)",
@@ -46,4 +47,19 @@ wca_1_img <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
 
 ggsave("figures/wca_1_img.png", plot = wca_1_img,
        width = 10, height = 6, units = "in", dpi = 600)
+
+# statistics for DI water, Stock, 0.1% GO
+
+wca_lm_1 <- lm(contact_angle ~ coating * time, data = wca_1_fig)
+anova(wca_lm_1)
+summary(wca_lm_1)
+
+# time-specific estimated means and pairwise differences
+wca_1_emm <- emmeans(fit_lm, ~ coating | time,
+                 at = list(time = c(100, 600)))
+wca_1_emm                 
+pairs(wca_1_emm)            
+
+
+
 
