@@ -74,3 +74,49 @@ summary(fit_twoway_4.1.1)
 
 TukeyHSD(fit_oneway_4.1.1_60)
 
+# formatting for figure 4.1.2
+
+metsa_2_fig <- water_data_metsa_fig |>
+  filter(coating %in% c("25% WBBC","25% WBBC + 0.1% GO", "0.1% GO", "Stock")) |>
+  mutate(time = as.numeric(as.character(time))) 
+
+metsa_2_img <- ggplot(metsa_2_fig, aes(x = time, y = absorption,
+                                       color = coating, shape = coating)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = absorption - rms,
+                    ymax = absorption + rms),
+                width = 1, linewidth = 0.5) +
+  scale_color_manual(
+    values = c("25% WBBC" = "dodgerblue",
+               "Stock" = "grey65",
+               "0.1% GO" = "firebrick",
+               "25% WBBC + 0.1% GO" = "seagreen2"
+               )
+  ) +
+  scale_shape_manual(
+    values = c("25% WBBC" = 16,
+               "0.1% GO" = 17,
+               "Stock" = 15,
+               "25% WBBC + 0.1% GO" = 18)
+  ) +
+  scale_x_continuous(breaks = seq(0, 60, 10)) +
+  labs(
+    title = "Water absorption of Metsä paper with GO, WBBC, and synergistic coatings",
+    x = "Time (min)",
+    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    axis.title.x = element_text(face = "plain"),
+    legend.position.inside = c(0.75, 0.25),
+    legend.background = element_blank(),
+    legend.text = element_text(size = 12)
+  )
+
+ggsave("figures/metsa_2_img.png", plot = metsa_2_img,
+       width = 10, height = 6, units = "in", dpi = 600)
+
