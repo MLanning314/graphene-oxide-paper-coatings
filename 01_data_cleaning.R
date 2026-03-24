@@ -74,4 +74,6 @@ wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
 
+save(wca_data_metsa, file = here("data/wca_data_metsa.rda"))
+
 
