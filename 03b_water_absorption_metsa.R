@@ -120,3 +120,26 @@ metsa_2_img <- ggplot(metsa_2_fig, aes(x = time, y = absorption,
 ggsave("figures/metsa_2_img.png", plot = metsa_2_img,
        width = 10, height = 6, units = "in", dpi = 600)
 
+# anova for synergistic coatings
+
+metsa_2 <- water_data_metsa |>
+  filter(coating %in% c("25% WBBC","25% WBBC + 0.1% GO", "0.1% GO", "Stock")) |>
+  mutate(time = as.factor(time)) 
+
+metsa_2_60 <- metsa_2 |>
+  filter(time == 60)
+
+fit_oneway_4.1.2 <- aov(raw_weight ~ coating, data = metsa_2)
+summary(fit_oneway_4.1.2)
+
+fit_oneway_4.1.2_60 <- aov(raw_weight ~ coating, data = metsa_2_60)
+summary(fit_oneway_4.1.2_60)
+
+# If you want to account for time as well (recommended)
+fit_twoway_4.1.2 <- aov(raw_weight ~ coating * time, data = metsa_2)
+summary(fit_twoway_4.1.2)
+
+TukeyHSD(fit_oneway_4.1.2)
+TukeyHSD(fit_twoway_4.1.2)
+TukeyHSD(fit_oneway_4.1.2_60)
+
