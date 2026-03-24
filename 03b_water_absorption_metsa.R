@@ -35,7 +35,7 @@ metsa_1_img <- ggplot(metsa_1_fig, aes(x = time, y = absorption,
   ) +
   scale_x_continuous(breaks = seq(0, 60, 10)) +
   labs(
-    title = "DI water, Stock, 0.1% GO water absorption of HelloFresh",
+    title = "DI water, Stock, 0.1% GO water absorption of Metsä",
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -53,24 +53,24 @@ metsa_1_img <- ggplot(metsa_1_fig, aes(x = time, y = absorption,
 ggsave("figures/metsa_1_img.png", plot = metsa_1_img,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# anova for DI water, 0.1% GO, 15% WBBC
+# anova for DI water, Stock, 0.1% GO
 
-hf_1 <- water_data_HF |>
-  filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
+metsa_1 <- water_data_metsa |>
+  filter(coating %in% c("DI Water", "0.1% GO", "Stock")) |>
   mutate(time = as.factor(time)) 
 
-hf_1_60 <- hf_1 |>
+metsa_1_60 <- metsa_1 |>
   filter(time == 60)
 
-fit_oneway_3.1.1 <- aov(raw_weight ~ coating, data = hf_1)
-summary(fit_oneway_3.1.1)
+fit_oneway_4.1.1 <- aov(raw_weight ~ coating, data = metsa_1)
+summary(fit_oneway_4.1.1)
 
-fit_oneway_3.1.1_60 <- aov(raw_weight ~ coating, data = hf_1_60)
-summary(fit_oneway_3.1.1)
+fit_oneway_4.1.1_60 <- aov(raw_weight ~ coating, data = metsa_1_60)
+summary(fit_oneway_4.1.1)
 
 # If you want to account for time as well (recommended)
-fit_twoway_3.1.1 <- aov(raw_weight ~ coating * time, data = hf_1)
-summary(fit_twoway_3.1.1)
+fit_twoway_4.1.1 <- aov(raw_weight ~ coating * time, data = metsa_1)
+summary(fit_twoway_4.1.1)
 
-TukeyHSD(fit_oneway_3.1.1_60)
+TukeyHSD(fit_oneway_4.1.1_60)
 
