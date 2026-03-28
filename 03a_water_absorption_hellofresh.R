@@ -8,6 +8,7 @@ library(car)
 
 # Load Data
 load(here("data/water_data_HF.rda"))
+load(here("data/absorption_data_HF.rda"))
 load(here("data/water_data_HF_fig.rda"))
 
 # formatting for figure 3.1.1
@@ -340,6 +341,7 @@ hf_5_fig <- water_data_HF_fig |>
                                      "25% WBBC",
                                      "25% WBBC + 0.1% GO")))
 
+
 hf_5_img <- ggplot(hf_5_fig, aes(x = time, y = absorption,
                                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
@@ -386,11 +388,20 @@ hf_5 <- water_data_HF |>
                         "0.1% GO")) |>
   mutate(time = as.factor(time)) 
 
+hf_5_absorption <- absorption_data_HF |>
+  filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
+                        "0.1% GO")) |>
+  mutate(time = as.factor(time)) 
+  
 hf_5_60 <- hf_5 |>
   filter(time == 60)
 
 fit_oneway_3.1.5 <- aov(raw_weight ~ coating, data = hf_5)
 summary(fit_oneway_3.1.5)
+
+fit_oneway_absorb_3.1.5 <- aov(absorption_large ~ coating, 
+                               data = hf_5_absorption)
+summary(fit_oneway_absorb_3.1.5)
 
 fit_oneway_3.1.5_60 <- aov(raw_weight ~ coating, data = hf_5_60)
 summary(fit_oneway_3.1.5_60)
@@ -399,8 +410,14 @@ summary(fit_oneway_3.1.5_60)
 fit_twoway_3.1.5 <- aov(raw_weight ~ coating * time, data = hf_5)
 summary(fit_twoway_3.1.5)
 
+fit_twoway_absorb_3.1.5 <- aov(absorption_large ~ coating * time, 
+                               data = hf_5_absorption)
+summary(fit_twoway_absorb_3.1.5)
+
 TukeyHSD(fit_oneway_3.1.5, "coating")
 TukeyHSD(fit_oneway_3.1.5_60, "coating")
+TukeyHSD(fit_twoway_absorb_3.1.5)
+TukeyHSD(fit_oneway_absorb_3.1.5)
 
 
 
