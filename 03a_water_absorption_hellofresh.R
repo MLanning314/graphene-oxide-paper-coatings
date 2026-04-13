@@ -7,17 +7,21 @@ library(here)
 library(car)
 
 # Load Data
-load(here("data/water_data_HF.rda"))
 load(here("data/absorption_data_HF.rda"))
-load(here("data/water_data_HF_fig.rda"))
+load(here("data/absorption_HF_fig.rda"))
 
 # formatting for figure 3.1.1
 
-hf_1_fig <- water_data_HF_fig |>
+hf_1_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
-  mutate(time = as.numeric(as.character(time))) 
+  mutate(
+    time = as.numeric(time),
+    coating = factor(
+      dplyr::recode(coating, `15% WBBC` = "5.85% Joncryl"),
+      levels = c("DI Water", "0.1% GO", "5.85% Joncryl")
+    ))
 
-hf_1_img <- ggplot(hf_1_fig, aes(x = time, y = absorption,
+fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
                              color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -27,16 +31,15 @@ hf_1_img <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "0.1% GO" = "firebrick",
-               "15% WBBC" = "goldenrod1")
+               "5.85% Joncryl" = "goldenrod1")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
                "0.1% GO" = 17,
-               "15% WBBC" = 15)
+               "5.85% Joncryl" = 15)
   ) +
   scale_x_continuous(breaks = seq(0, 60, 10)) +
   labs(
-    title = "DI water, 0.1% GO, 15% WBBC water absorption of HelloFresh",
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -44,14 +47,13 @@ hf_1_img <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/hf_1_img.png", plot = hf_1_img,
+ggsave("figures/fig_3.1.1.png", plot = fig_3.1.1,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for DI water, 0.1% GO, 15% WBBC
