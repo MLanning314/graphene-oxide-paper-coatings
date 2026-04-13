@@ -67,8 +67,8 @@ absorption_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
          time = as.factor(time))
 
 # save data
-save(absorption_data_metsa, file = here("data/water_data_metsa.rda"))
-save(absorption_metsa_fig, file = here("data/water_data_metsa_fig.rda"))
+save(absorption_data_metsa, file = here("data/absorption_data_metsa.rda"))
+save(absorption_metsa_fig, file = here("data/absorption_metsa_fig.rda"))
 
 # clean water contact angle data for Metsä
 wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
