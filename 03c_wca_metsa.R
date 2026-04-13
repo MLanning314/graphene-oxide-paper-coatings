@@ -101,15 +101,15 @@ ggsave("figures/wca_2_img.png", plot = wca_2_img,
 
 # statistics for DI water, Stock, 0.1% GO
 
-wca_lm_1 <- lm(contact_angle ~ coating * time, data = wca_1_fig)
-anova(wca_lm_1)
-summary(wca_lm_1)
+wca_lm_2 <- lm(contact_angle ~ coating * time, data = wca_2_fig)
+anova(wca_lm_2)
+summary(wca_lm_2)
 
 # time-specific estimated means and pairwise differences
-wca_1_emm <- emmeans(wca_lm_1, ~ coating | time,
+wca_2_emm <- emmeans(wca_lm_2, ~ coating | time,
                      at = list(time = c(100, 600)))
-wca_1_emm                 
-pairs(wca_1_emm)            
+wca_2_emm                 
+pairs(wca_2_emm)            
 
 
 
