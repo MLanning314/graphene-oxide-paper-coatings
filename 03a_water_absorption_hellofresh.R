@@ -58,23 +58,24 @@ ggsave("figures/fig_3.1.1.png", plot = fig_3.1.1,
 
 # anova for DI water, 0.1% GO, 15% WBBC
 
-hf_1 <- water_data_HF |>
+hf_1 <- absorption_data_HF |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
   mutate(time = as.factor(time)) 
 
 hf_1_60 <- hf_1 |>
   filter(time == 60)
   
-fit_oneway_3.1.1 <- aov(raw_weight ~ coating, data = hf_1)
+fit_oneway_3.1.1 <- aov(absorption ~ coating, data = hf_1)
 summary(fit_oneway_3.1.1)
 
-fit_oneway_3.1.1_60 <- aov(raw_weight ~ coating, data = hf_1_60)
+fit_oneway_3.1.1_60 <- aov(absorption ~ coating, data = hf_1_60)
 summary(fit_oneway_3.1.1)
 
 # If you want to account for time as well (recommended)
-fit_twoway_3.1.1 <- aov(raw_weight ~ coating * time, data = hf_1)
+fit_twoway_3.1.1 <- aov(absorption ~ coating * time, data = hf_1)
 summary(fit_twoway_3.1.1)
 
+TukeyHSD(fit_oneway_3.1.1)
 TukeyHSD(fit_oneway_3.1.1_60)
 
 
