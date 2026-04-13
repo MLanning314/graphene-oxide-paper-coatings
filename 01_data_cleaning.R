@@ -7,7 +7,6 @@ library(readxl)
 library(here)
 
 # clean tensile strength data
-# Read in data from Excel
 tensile_data <- read_excel("Tensile_Strength_WI2026.xlsx",
                                       sheet = "New Data") |>
   janitor::clean_names() |>
@@ -33,25 +32,24 @@ save(tensile_data, file = here("data/tensile_data.rda"))
 save(tensile_strength_md, file = here("data/tensile_strength_md.rda"))
 save(tensile_strength_cd, file = here("data/tensile_strength_cd.rda"))
 
+
 # clean water absorption data for HelloFresh
-water_data_HF <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
+absorption_data_HF <- read_excel("HelloFresh_Absorption.xlsx",
                             sheet = "Formatting for R") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
-# save data
-save(water_data_HF, file = here("data/water_data_HF.rda"))
-
 # modifying data for cleaner figures
-water_data_HF_fig <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
+absorption_HF_fig <- read_excel("HelloFresh_Absorption.xlsx",
                             sheet = "Figures for R") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
-# save data for figures
-save(water_data_HF_fig, file = here("data/water_data_HF_fig.rda"))
+# save data
+save(absorption_data_HF, file = here("data/absorption_data_HF.rda"))
+save(absorption_HF_fig, file = here("data/absorption_HF_fig.rda"))
 
 absorption_data_HF <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
                             sheet = "Absorption for R") |>
