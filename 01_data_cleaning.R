@@ -51,32 +51,24 @@ absorption_HF_fig <- read_excel("HelloFresh_Absorption.xlsx",
 save(absorption_data_HF, file = here("data/absorption_data_HF.rda"))
 save(absorption_HF_fig, file = here("data/absorption_HF_fig.rda"))
 
-absorption_data_HF <- read_excel("HelloFresh_Absorption_Fall2025.xlsx",
-                            sheet = "Absorption for R") |>
-  janitor::clean_names() |>
-  mutate(coating = as.factor(coating),
-         time = as.factor(time))
-
-# save data
-save(absorption_data_HF, file = here("data/absorption_data_HF.rda"))
 
 #clean water absorption data for Metsä
-water_data_metsa <- read_excel("Metsa_Water_Absorption.xlsx",
+absorption_data_metsa <- read_excel("Metsa_Water_Absorption.xlsx",
                                sheet = "Formatting for R") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # modifying data for cleaner figures
-water_data_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
+absorption_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
                                    sheet = "Figures for R") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # save data
-save(water_data_metsa, file = here("data/water_data_metsa.rda"))
-save(water_data_metsa_fig, file = here("data/water_data_metsa_fig.rda"))
+save(absorption_data_metsa, file = here("data/water_data_metsa.rda"))
+save(absorption_metsa_fig, file = here("data/water_data_metsa_fig.rda"))
 
 # clean water contact angle data for Metsä
 wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
@@ -87,17 +79,6 @@ wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
 save(wca_data_metsa, file = here("data/wca_data_metsa.rda"))
 
 # clean water absorption data for International Paper (IP)
-water_data_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
-                                   sheet = "Figures for R") |>
-  janitor::clean_names() |>
-  mutate(coating = as.factor(coating),
-         time = as.factor(time))
-
-# save data
-save(water_data_metsa, file = here("data/water_data_metsa.rda"))
-save(water_data_metsa_fig, file = here("data/water_data_metsa_fig.rda"))
-
-# clean water contact angle data for Metsä
 absorption_data_IP <- read_excel("IP_Absorption.xlsx",
                              sheet = "Formatting for R") |>
   janitor::clean_names() |>
