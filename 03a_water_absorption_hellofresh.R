@@ -202,30 +202,30 @@ fig_3.1.3 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
 ggsave("figures/fig_3.1.3.png", plot = fig_3.1.3,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# anova
+# anova for 0.2% GO, 0.5% GO, and 15% WBBC
 
-hf_3 <- water_data_HF |>
+hf_3 <- absorption_data_HF |>
   filter(coating %in% c("0.20% GO", "0.5% GO", "15% WBBC")) |>
   mutate(time = as.factor(time)) 
 
 hf_3_60 <- hf_3 |>
   filter(time == 60)
 
-fit_oneway_3.1.3 <- aov(raw_weight ~ coating, data = hf_3)
+fit_oneway_3.1.3 <- aov(absorption ~ coating, data = hf_3)
 summary(fit_oneway_3.1.3)
 
-fit_oneway_3.1.3_60 <- aov(raw_weight ~ coating, data = hf_3_60)
+fit_oneway_3.1.3_60 <- aov(absorption ~ coating, data = hf_3_60)
 summary(fit_oneway_3.1.3_60)
 
 # If you want to account for time as well (recommended)
-fit_twoway_3.1.3 <- aov(raw_weight ~ coating * time, data = hf_3)
+fit_twoway_3.1.3 <- aov(absorption ~ coating * time, data = hf_3)
 summary(fit_twoway_3.1.3)
 
 TukeyHSD(fit_oneway_3.1.3, "coating")
 TukeyHSD(fit_oneway_3.1.3_60, "coating")
 
 # figure 3.1.4
-hf_4_fig <- water_data_HF_fig |>
+hf_4_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "1% WBBC", "5% WBBC", 
                         "15% WBBC", "25% WBBC")) |>
   mutate(time = as.numeric(as.character(time))) |>
@@ -237,7 +237,7 @@ hf_4_fig <- water_data_HF_fig |>
                                      "15% WBBC",
                                      "25% WBBC")))
 
-hf_4_img <- ggplot(hf_4_fig, aes(x = time, y = absorption,
+fig_3.1.4 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
                                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -262,7 +262,6 @@ hf_4_img <- ggplot(hf_4_fig, aes(x = time, y = absorption,
   ) +
   scale_x_continuous(breaks = seq(0, 60, 10)) +
   labs(
-    title = "Water absorption of WBBC-coated HelloFresh",
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -270,14 +269,13 @@ hf_4_img <- ggplot(hf_4_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/hf_4_img.png", plot = hf_4_img,
+ggsave("figures/fig_3.1.4.png", plot = fig_3.1.4,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova
