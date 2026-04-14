@@ -27,7 +27,7 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 1, linewidth = 0.5) +
+                width = 0.5, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "0.1% GO" = "firebrick",
@@ -68,8 +68,11 @@ hf_1_60 <- hf_1 |>
 fit_oneway_3.1.1 <- aov(absorption ~ coating, data = hf_1)
 summary(fit_oneway_3.1.1)
 
+fit_oneway_3.1.1_weight <- aov(raw_weight ~ coating, data = hf_1)
+summary(fit_oneway_3.1.1_weight)
+
 fit_oneway_3.1.1_60 <- aov(absorption ~ coating, data = hf_1_60)
-summary(fit_oneway_3.1.1)
+summary(fit_oneway_3.1.1_60)
 
 # If you want to account for time as well (recommended)
 fit_twoway_3.1.1 <- aov(absorption ~ coating * time, data = hf_1)
@@ -77,6 +80,7 @@ summary(fit_twoway_3.1.1)
 
 TukeyHSD(fit_oneway_3.1.1)
 TukeyHSD(fit_oneway_3.1.1_60)
+TukeyHSD(fit_oneway_3.1.1_weight)
 
 
 
