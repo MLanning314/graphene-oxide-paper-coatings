@@ -228,14 +228,22 @@ TukeyHSD(fit_oneway_3.1.3_60, "coating")
 hf_4_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "1% WBBC", "5% WBBC", 
                         "15% WBBC", "25% WBBC")) |>
-  mutate(time = as.numeric(as.character(time))) |>
-  mutate(coating = factor(coating,
-                          levels = c("DI Water",
-                                     "Stock",
-                                     "1% WBBC",
-                                     "5% WBBC",
-                                     "15% WBBC",
-                                     "25% WBBC")))
+  mutate(
+    time = as.numeric(time),
+    coating = dplyr::recode(coating,
+                            `1% WBBC`  = "0.39% Joncryl",
+                            `5% WBBC`  = "1.95% Joncryl",
+                            `15% WBBC` = "5.85% Joncryl",
+                            `25% WBBC` = "9.75% Joncryl"),
+    coating = factor(coating,
+      levels = c("DI Water",
+                 "Stock",
+                 "0.39% Joncryl",
+                 "1.95% Joncryl",
+                 "9.75% Joncryl",
+                 "5.85% Joncryl")))
+
+
 
 fig_3.1.4 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
                                  color = coating, shape = coating)) +
@@ -243,22 +251,22 @@ fig_3.1.4 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 1, linewidth = 0.5) +
+                width = 0.1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "1% WBBC" = "firebrick",
-               "5% WBBC" = "springgreen1",
-               "15% WBBC" = "goldenrod1",
-               "25% WBBC" = "mediumpurple1")
+               "0.39% Joncryl" = "firebrick",
+               "1.95% Joncryl" = "springgreen1",
+               "5.85% Joncryl" = "goldenrod1",
+               "9.75% Joncryl" = "mediumpurple1")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
                "Stock" = 4,
-               "1% WBBC" = 15,
-               "5% WBBC" = 18,
-               "15% WBBC" = 8,
-               "25% WBBC" = 17)
+               "0.39% Joncryl" = 15,
+               "1.95% Joncryl" = 18,
+               "5.85% Joncryl" = 8,
+               "9.75% Joncryl" = 17)
   ) +
   scale_x_continuous(breaks = seq(0, 60, 10)) +
   labs(
@@ -278,7 +286,7 @@ fig_3.1.4 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
 ggsave("figures/fig_3.1.4.png", plot = fig_3.1.4,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# anova
+# anova for various WBBC coatings
 
 hf_4 <- water_data_HF |>
   filter(coating %in% c("DI Water", "Stock", "1% WBBC", "5% WBBC", 
