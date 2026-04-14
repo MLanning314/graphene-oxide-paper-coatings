@@ -85,18 +85,22 @@ TukeyHSD(fit_oneway_3.1.1_weight)
 
 
 # formatting for figure 3.1.2
-hf_2_fig <- water_data_HF_fig |>
+hf_2_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", "0.5% GO")) |>
-  mutate(time = as.numeric(as.character(time))) 
+  mutate(
+    time = as.numeric(time),
+    coating = factor(
+      coating,
+      levels = c("DI Water", "Stock", "0.1% GO",
+                 "0.2% GO", "0.5% GO")))
 
-
-hf_2_img <- ggplot(hf_2_fig, aes(x = time, y = absorption,
+fig_3.1.2 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
                              color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 1, linewidth = 0.5) +
+                width = 0.2, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
@@ -112,7 +116,6 @@ hf_2_img <- ggplot(hf_2_fig, aes(x = time, y = absorption,
                "0.5% GO" = 8)      
   ) +
   labs(
-    title = "GO-coatings vs. controls water absorption of HelloFresh",
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -122,12 +125,12 @@ hf_2_img <- ggplot(hf_2_fig, aes(x = time, y = absorption,
   theme(
     plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
-    legend.position = c(0.75, 0.20),
+    legend.position.inside = c(0.75, 0.20),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/hf_2_img.png", plot = hf_2_img,
+ggsave("figures/fig_3.1.2.png", plot = fig_3.1.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for DI water, 0.1% GO, 0.2% GO, 0.5% GO, and stock
