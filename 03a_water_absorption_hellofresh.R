@@ -27,7 +27,7 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 0.5, linewidth = 0.5) +
+                width = 0.2, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "0.1% GO" = "firebrick",
