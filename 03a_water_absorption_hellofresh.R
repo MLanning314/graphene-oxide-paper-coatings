@@ -366,12 +366,7 @@ ggsave("figures/fig_3.2.1.png", plot = fig_3.2.1,
 
 # anova for synergistic coatings
 
-hf_5 <- water_data_HF |>
-  filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
-                        "0.1% GO")) |>
-  mutate(time = as.factor(time)) 
-
-hf_5_absorption <- absorption_data_HF |>
+hf_5 <- absorption_data_HF |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
   mutate(time = as.factor(time)) 
@@ -379,28 +374,18 @@ hf_5_absorption <- absorption_data_HF |>
 hf_5_60 <- hf_5 |>
   filter(time == 60)
 
-fit_oneway_3.1.5 <- aov(raw_weight ~ coating, data = hf_5)
-summary(fit_oneway_3.1.5)
+fit_oneway_3.2.1 <- aov(absorption ~ coating, data = hf_5)
+summary(fit_oneway_3.2.1)
 
-fit_oneway_absorb_3.1.5 <- aov(absorption_large ~ coating, 
-                               data = hf_5_absorption)
-summary(fit_oneway_absorb_3.1.5)
+fit_oneway_3.2.1_60 <- aov(absorption ~ coating, data = hf_5_60)
+summary(fit_oneway_3.2.1_60)
 
-fit_oneway_3.1.5_60 <- aov(raw_weight ~ coating, data = hf_5_60)
-summary(fit_oneway_3.1.5_60)
+fit_twoway_3.2.1 <- aov(absorption ~ coating * time, data = hf_5)
+summary(fit_twoway_3.2.1)
 
-# If you want to account for time as well (recommended)
-fit_twoway_3.1.5 <- aov(raw_weight ~ coating * time, data = hf_5)
-summary(fit_twoway_3.1.5)
-
-fit_twoway_absorb_3.1.5 <- aov(absorption_large ~ coating * time, 
-                               data = hf_5_absorption)
-summary(fit_twoway_absorb_3.1.5)
-
-TukeyHSD(fit_oneway_3.1.5, "coating")
-TukeyHSD(fit_oneway_3.1.5_60, "coating")
-TukeyHSD(fit_twoway_absorb_3.1.5)
-TukeyHSD(fit_oneway_absorb_3.1.5)
+TukeyHSD(fit_oneway_3.2.1, "coating")
+TukeyHSD(fit_oneway_3.2.1_60, "coating")
+TukeyHSD(fit_twoway_3.2.1, "coating")
 
 
 
