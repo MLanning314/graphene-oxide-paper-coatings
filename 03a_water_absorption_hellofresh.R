@@ -288,7 +288,7 @@ ggsave("figures/fig_3.1.4.png", plot = fig_3.1.4,
 
 # anova for various WBBC coatings
 
-hf_4 <- water_data_HF |>
+hf_4 <- absorption_data_HF |>
   filter(coating %in% c("DI Water", "Stock", "1% WBBC", "5% WBBC", 
                         "15% WBBC", "25% WBBC")) |>
   mutate(time = as.factor(time)) 
@@ -296,55 +296,58 @@ hf_4 <- water_data_HF |>
 hf_4_60 <- hf_4 |>
   filter(time == 60)
 
-fit_oneway_3.1.4 <- aov(raw_weight ~ coating, data = hf_4)
+fit_oneway_3.1.4 <- aov(absorption ~ coating, data = hf_4)
 summary(fit_oneway_3.1.4)
 
-fit_oneway_3.1.4_60 <- aov(raw_weight ~ coating, data = hf_4_60)
+fit_oneway_3.1.4_60 <- aov(absorption ~ coating, data = hf_4_60)
 summary(fit_oneway_3.1.4_60)
 
 # If you want to account for time as well (recommended)
-fit_twoway_3.1.4 <- aov(raw_weight ~ coating * time, data = hf_4)
+fit_twoway_3.1.4 <- aov(absorption ~ coating * time, data = hf_4)
 summary(fit_twoway_3.1.4)
 
 TukeyHSD(fit_oneway_3.1.4, "coating")
 TukeyHSD(fit_oneway_3.1.4_60, "coating")
 
-leveneTest(raw_weight ~ coating, data = hf_4)
+leveneTest(absorption ~ coating, data = hf_4)
 
-# figure 3.1.5
-hf_5_fig <- water_data_HF_fig |>
+# figure 3.2.1
+hf_5_fig <- absorption_HF_fig |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
-  mutate(time = as.numeric(as.character(time))) |>
-  mutate(coating = factor(coating,
-                          levels = c("Stock",
-                                     "0.1% GO",
-                                     "25% WBBC",
-                                     "25% WBBC + 0.1% GO")))
+  mutate(
+    time = as.numeric(time),
+    coating = dplyr::recode(coating,
+                            `25% WBBC + 0.1% GO` = "9.75% Joncryl + 0.1% GO",
+                            `25% WBBC` = "9.75% Joncryl"),
+    coating = factor(coating,
+                     levels = c("Stock",
+                                "0.1% GO",
+                                "9.75% Joncryl",
+                                "9.75% Joncryl + 0.1% GO")))
 
 
-hf_5_img <- ggplot(hf_5_fig, aes(x = time, y = absorption,
+fig_3.2.1 <- ggplot(hf_5_fig, aes(x = time, y = absorption,
                                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 1, linewidth = 0.5) +
+                width = 0.1, linewidth = 0.5) +
   scale_color_manual(
     values = c("Stock" = "grey65",
                "0.1% GO" = "firebrick",
-               "25% WBBC" = "dodgerblue",
-               "25% WBBC + 0.1% GO" = "springgreen1"
+               "9.75% Joncryl" = "dodgerblue",
+               "9.75% Joncryl + 0.1% GO" = "springgreen1"
   )) +
   scale_shape_manual(
     values = c( "Stock" = 16,
                "0.1% GO" = 15,
-               "25% WBBC" = 18,
-               "25% WBBC + 0.1% GO" = 17)
+               "9.75% Joncryl" = 18,
+               "9.75% Joncryl + 0.1% GO" = 17)
   ) +
   scale_x_continuous(breaks = seq(0, 60, 10)) +
   labs(
-    title = "Water absorption of HelloFresh paper with GO, WBBC, and synergistic coatings",
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -352,17 +355,16 @@ hf_5_img <- ggplot(hf_5_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/hf_5_img.png", plot = hf_5_img,
+ggsave("figures/fig_3.2.1.png", plot = fig_3.2.1,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# anova
+# anova for synergistic coatings
 
 hf_5 <- water_data_HF |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
