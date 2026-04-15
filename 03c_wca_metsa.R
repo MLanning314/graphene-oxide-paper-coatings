@@ -10,7 +10,7 @@ library(emmeans)
 # Load Data
 load(here("data/wca_data_metsa.rda"))
 
-# formatting for figure 4.1.3
+# formatting for figure 4.2.2
 wca_1_fig <- wca_data_metsa |>
   filter(coating %in% c("DI Water", "0.1% GO", "Stock"))
 

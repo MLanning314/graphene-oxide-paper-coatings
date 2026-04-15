@@ -6,6 +6,7 @@ library(here)
 library(car)
 
 # Load Data
-load(here("data/water_data_HF.rda"))
-load(here("data/absorption_data_HF.rda"))
-load(here("data/water_data_HF_fig.rda"))
+load(here("data/absorption_data_IP.rda"))
+load(here("data/absorption_IP_fig.rda"))
+
+# formatting for figure
