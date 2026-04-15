@@ -80,16 +80,16 @@ TukeyHSD(fit_twoway_4.3.1)
 TukeyHSD(fit_oneway_4.3.1_60)
 
 # formatting for figure 4.3.2
-IP_1_fig <- absorption_IP_fig |>
-  filter(coating %in% c("DI Water", "0.1% GO", "Stock",
+IP_2_fig <- absorption_IP_fig |>
+  filter(coating %in% c("0.2% GO", "0.1% GO", "0.5% GO",
                         "25% WBBC")) |>
   mutate(time = as.numeric(time),
          coating = dplyr::recode(coating,
                                  `25% WBBC` = "9.75% Joncryl"),
          coating = factor(coating,
-                          levels = c("Stock", "DI Water", "0.1% GO", "9.75% Joncryl")))
+                          levels = c("0.5% GO", "0.1% GO", "0.2% GO", "9.75% Joncryl")))
 
-fig_4.3.1 <- ggplot(IP_1_fig, aes(x = time, y = absorption,
+fig_4.3.2 <- ggplot(IP_2_fig, aes(x = time, y = absorption,
                                   color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -97,16 +97,16 @@ fig_4.3.1 <- ggplot(IP_1_fig, aes(x = time, y = absorption,
                     ymax = absorption + rms),
                 width = 0.1, linewidth = 0.5) +
   scale_color_manual(
-    values = c("DI Water" = "dodgerblue",
-               "Stock" = "grey65",
+    values = c("0.2% GO" = "goldenrod1",
+               "0.5% GO" = "springgreen1",
                "0.1% GO" = "firebrick",
-               "9.75% Joncryl" = "goldenrod1"
+               "9.75% Joncryl" = "dodgerblue"
     )
   ) +
   scale_shape_manual(
-    values = c("DI Water" = 16,
+    values = c("0.2% GO" = 16,
                "0.1% GO" = 17,
-               "Stock" = 15,
+               "0.5% GO" = 15,
                "9.75% Joncryl" = 18)
   ) +
   scale_x_continuous(breaks = seq(0, 60, 10)) +
@@ -124,7 +124,7 @@ fig_4.3.1 <- ggplot(IP_1_fig, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/fig_4.3.1.png", plot = fig_4.3.1,
+ggsave("figures/fig_4.3.2.png", plot = fig_4.3.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for DI water, Stock, 0.1% GO, and 25% WBBC
