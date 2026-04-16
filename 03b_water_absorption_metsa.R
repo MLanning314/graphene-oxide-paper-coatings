@@ -67,12 +67,14 @@ fit_oneway_4.1.1 <- aov(absorption ~ coating, data = metsa_1)
 summary(fit_oneway_4.1.1)
 
 fit_oneway_4.1.1_60 <- aov(absorption ~ coating, data = metsa_1_60)
-summary(fit_oneway_4.1.1)
+summary(fit_oneway_4.1.1_60)
 
 # If you want to account for time as well (recommended)
 fit_twoway_4.1.1 <- aov(absorption ~ coating * time, data = metsa_1)
 summary(fit_twoway_4.1.1)
 
+
+TukeyHSD(fit_oneway_4.1.1)
 TukeyHSD(fit_oneway_4.1.1_60)
 
 
@@ -150,4 +152,4 @@ TukeyHSD(fit_twoway_4.1.2)
 TukeyHSD(fit_oneway_4.1.2_60)
 
 # check and see if variability is increased or decreasesd
-leveneTest(raw_weight ~ coating, data = metsa_2)
+leveneTest(absorption ~ coating, data = metsa_2)

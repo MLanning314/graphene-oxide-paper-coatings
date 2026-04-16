@@ -10,7 +10,7 @@ library(emmeans)
 # Load Data
 load(here("data/wca_data_metsa.rda"))
 
-# formatting for figure 4.2.2
+# formatting for figure 4.2.1
 wca_1_fig <- wca_data_metsa |>
   filter(coating %in% c("DI Water", "0.1% GO", "Stock")) |>
   mutate(
@@ -142,7 +142,7 @@ fig_4.2.3 <- ggplot(wca_3_fig, aes(x = time, y = contact_angle,
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/wca_2_img.png", plot = wca_2_img,
+ggsave("figures/fig_4.2.3.png", plot = fig_4.2.3,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # statistics for DI water, Stock, 0.1% GO
