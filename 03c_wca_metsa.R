@@ -91,38 +91,36 @@ fig_4.2.2 <- ggplot(wca_1_fig, aes(x = time, y = volume,
 ggsave("figures/fig_4.2.2.png", plot = fig_4.2.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# statistics for DI water, Stock, 0.1% GO
 
-wca_lm_1 <- lm(contact_angle ~ coating * time, data = wca_1_fig)
-anova(wca_lm_1)
-summary(wca_lm_1)
-
-# time-specific estimated means and pairwise differences
-wca_1_emm <- emmeans(wca_lm_1, ~ coating | time,
-                     at = list(time = c(100, 600)))
-wca_1_emm                 
-pairs(wca_1_emm)            
-
-
-# formatting for figure 4.1.4
+# formatting for figure 4.2.3
 wca_2_fig <- wca_data_metsa |>
-  filter(coating %in% c("0.1% GO", "Stock", "25% WBBC", "25% WBBC + 0.1% GO"))
+  filter(coating %in% c("0.1% GO", "Stock", "25% WBBC", "25% WBBC + 0.1% GO")) |>
+  mutate(
+    time = as.numeric(time),
+    coating = dplyr::recode(coating,
+                            `25% WBBC + 0.1% GO` = "9.75% Joncryl + 0.1% GO",
+                            `25% WBBC` = "9.75% Joncryl"),
+    coating = factor(coating,
+                     levels = c("0.1% GO",
+                                "Stock",
+                                "9.75% Joncryl",
+                                "9.75% Joncryl + 0.1% GO")))
 
-wca_2_img <- ggplot(wca_2_fig, aes(x = time, y = contact_angle,
+fig_4.2.3 <- ggplot(wca_2_fig, aes(x = time, y = contact_angle,
                                    color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 2) +
   scale_color_manual(
-    values = c("25% WBBC" = "dodgerblue",
+    values = c("9.75% Joncryl" = "dodgerblue",
                "Stock" = "grey65",
                "0.1% GO" = "firebrick",
-               "25% WBBC + 0.1% GO" = "seagreen2")
+               "9.75% Joncryl + 0.1% GO" = "seagreen2")
   ) +
   scale_shape_manual(
-    values = c("25% WBBC" = 16,
+    values = c("9.75% Joncryl" = 16,
                "0.1% GO" = 17,
                "Stock" = 15,
-               "25% WBBC + 0.1% GO" = 18)
+               "9.75% Joncryl + 0.1% GO" = 18)
   ) +
   scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
@@ -133,7 +131,6 @@ wca_2_img <- ggplot(wca_2_fig, aes(x = time, y = contact_angle,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),

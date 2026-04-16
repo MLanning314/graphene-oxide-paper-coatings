@@ -127,25 +127,25 @@ fig_4.3.2 <- ggplot(IP_2_fig, aes(x = time, y = absorption,
 ggsave("figures/fig_4.3.2.png", plot = fig_4.3.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# anova for DI water, Stock, 0.1% GO, and 25% WBBC
-IP_1 <- absorption_data_IP |>
-  filter(coating %in% c("DI Water", "0.1% GO", "Stock", "25% WBBC")) |>
+# anova for 0.1% GO, 0.2% GO, 0.5% GO, and 25% WBBC
+IP_2 <- absorption_data_IP |>
+  filter(coating %in% c("0.2% GO", "0.1% GO", "0.5% GO", "25% WBBC")) |>
   mutate(time = as.factor(time)) 
 
-IP_1_60 <- IP_1 |>
+IP_2_60 <- IP_2 |>
   filter(time == 60)
 
-fit_oneway_4.3.1 <- aov(absorption ~ coating, data = IP_1)
-summary(fit_oneway_4.3.1)
+fit_oneway_4.3.2 <- aov(absorption ~ coating, data = IP_2)
+summary(fit_oneway_4.3.2)
 
-fit_oneway_4.3.1_60 <- aov(absorption ~ coating, data = IP_1_60)
-summary(fit_oneway_4.3.1_60)
+fit_oneway_4.3.2_60 <- aov(absorption ~ coating, data = IP_2_60)
+summary(fit_oneway_4.3.2_60)
 
-fit_twoway_4.3.1 <- aov(absorption ~ coating * time, data = IP_1)
-summary(fit_twoway_4.3.1)
+fit_twoway_4.3.2 <- aov(absorption ~ coating * time, data = IP_2)
+summary(fit_twoway_4.3.2)
 
-TukeyHSD(fit_oneway_4.3.1)
-TukeyHSD(fit_twoway_4.3.1)
-TukeyHSD(fit_oneway_4.3.1_60)
+TukeyHSD(fit_oneway_4.3.2)
+TukeyHSD(fit_twoway_4.3.2)
+TukeyHSD(fit_oneway_4.3.2_60)
 
 
