@@ -147,7 +147,7 @@ ggsave("figures/wca_2_img.png", plot = wca_2_img,
 
 # statistics for DI water, Stock, 0.1% GO
 
-wca_lm_2 <- lm(contact_angle ~ coating * time, data = wca_2_fig)
+wca_lm_2 <- lm(contact_angle ~ coating * time, data = wca_3_fig)
 anova(wca_lm_2)
 summary(wca_lm_2)
 
@@ -156,6 +156,43 @@ wca_2_emm <- emmeans(wca_lm_2, ~ coating | time,
                      at = list(time = c(100, 600)))
 wca_2_emm                 
 pairs(wca_2_emm)            
+
+
+fig_4.2.4 <- ggplot(wca_3_fig, aes(x = time, y = volume,
+                                   color = coating, shape = coating)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_color_manual(
+    values = c("9.75% Joncryl" = "dodgerblue",
+               "Stock" = "grey65",
+               "0.1% GO" = "firebrick",
+               "9.75% Joncryl + 0.1% GO" = "seagreen2")
+  ) +
+  scale_shape_manual(
+    values = c("9.75% Joncryl" = 16,
+               "0.1% GO" = 17,
+               "Stock" = 15,
+               "9.75% Joncryl + 0.1% GO" = 18)
+  ) +
+  scale_x_continuous(breaks = seq(0, 600, 100)) +
+  labs(
+    x = "Time (s)",
+    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    axis.title.x = element_text(face = "plain"),
+    legend.position.inside = c(0.75, 0.25),
+    legend.background = element_blank(),
+    legend.text = element_text(size = 12)
+  )
+
+ggsave("figures/fig_4.2.4.png", plot = fig_4.2.4,
+       width = 10, height = 6, units = "in", dpi = 600)
+
+
 
 
 
