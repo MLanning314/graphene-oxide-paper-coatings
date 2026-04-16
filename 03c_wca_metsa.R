@@ -59,7 +59,7 @@ wca_1_emm
 pairs(wca_1_emm)   
 
 # formatting for figure 4.2.2
-fig_4.2.2 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
+fig_4.2.2 <- ggplot(wca_1_fig, aes(x = time, y = volume,
                                    color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 2) +
@@ -75,7 +75,6 @@ fig_4.2.2 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
   ) +
   scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
-    title = "DI water, Stock, 0.1% GO water contact angle",
     x = "Time (s)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
     color = NULL,
@@ -83,14 +82,13 @@ fig_4.2.2 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16),
     axis.title.x = element_text(face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/wca_1_img.png", plot = wca_1_img,
+ggsave("figures/fig_4.2.2.png", plot = fig_4.2.2,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # statistics for DI water, Stock, 0.1% GO
