@@ -12,7 +12,12 @@ load(here("data/wca_data_metsa.rda"))
 
 # formatting for figure 4.2.2
 wca_1_fig <- wca_data_metsa |>
-  filter(coating %in% c("DI Water", "0.1% GO", "Stock"))
+  filter(coating %in% c("DI Water", "0.1% GO", "Stock")) |>
+  mutate(
+    time = as.numeric(time),
+    coating = factor(
+      coating,
+      levels = c("Stock", "DI Water", "0.1% GO")))
 
 fig_4.2.1 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
                                        color = coating, shape = coating)) +
@@ -93,7 +98,7 @@ ggsave("figures/fig_4.2.2.png", plot = fig_4.2.2,
 
 
 # formatting for figure 4.2.3
-wca_2_fig <- wca_data_metsa |>
+wca_3_fig <- wca_data_metsa |>
   filter(coating %in% c("0.1% GO", "Stock", "25% WBBC", "25% WBBC + 0.1% GO")) |>
   mutate(
     time = as.numeric(time),
@@ -101,12 +106,12 @@ wca_2_fig <- wca_data_metsa |>
                             `25% WBBC + 0.1% GO` = "9.75% Joncryl + 0.1% GO",
                             `25% WBBC` = "9.75% Joncryl"),
     coating = factor(coating,
-                     levels = c("0.1% GO",
-                                "Stock",
+                     levels = c("9.75% Joncryl + 0.1% GO",
                                 "9.75% Joncryl",
-                                "9.75% Joncryl + 0.1% GO")))
+                                "Stock",
+                                "0.1% GO")))
 
-fig_4.2.3 <- ggplot(wca_2_fig, aes(x = time, y = contact_angle,
+fig_4.2.3 <- ggplot(wca_3_fig, aes(x = time, y = contact_angle,
                                    color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 2) +
