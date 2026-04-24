@@ -48,19 +48,15 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    axis.title.x = element_text(size = 16, face = "plain", 
-                                family = "Times New Roman"),
-    axis.title.y = element_text(size = 16, face = "plain",
-                                family = "Times New Roman"),
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
-    legend.text = element_text(size = 12, face = "plain",
-                               family = "Times New Roman")
+    legend.text = element_text(size = 12, face = "plain")
   )
 
 ggsave("figures/fig_3.1.1.png", plot = fig_3.1.1,
        width = 10, height = 6, units = "in", dpi = 600)
-
 # anova for DI water, 0.1% GO, 15% WBBC
 
 hf_1 <- absorption_data_HF |>
