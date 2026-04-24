@@ -166,7 +166,7 @@ leveneTest(absorption ~ coating, data = hf_2)
 
 hf_3_fig <- absorption_HF_fig |>
   filter(coating %in% c("0.2% GO", "0.5% GO", "15% WBBC")) |>
-  mutate(time = as.numeric(time),
+  mutate(time = (as.numeric(time) - 1) * 10,
          coating = factor(
            dplyr::recode(coating, `15% WBBC` = "5.85% Joncryl"),
            levels = c("0.2% GO", "0.5% GO", "5.85% Joncryl")))
@@ -177,7 +177,7 @@ fig_3.1.3 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 0.1, linewidth = 0.5) +
+                width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("0.2% GO" = "dodgerblue",
                "0.5% GO" = "firebrick",
@@ -188,7 +188,8 @@ fig_3.1.3 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
                "0.5% GO" = 17,
                "5.85% Joncryl" = 15)
   ) +
-  scale_x_continuous(breaks = seq(0, 60, 10)) +
+  scale_x_continuous(breaks = seq(10, 60, 10)) +
+  coord_cartesian(xlim = c(0, 60)) +
   labs(
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
@@ -197,7 +198,8 @@ fig_3.1.3 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    axis.title.x = element_text(face = "plain"),
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
