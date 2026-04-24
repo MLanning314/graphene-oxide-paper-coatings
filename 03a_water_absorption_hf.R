@@ -89,7 +89,7 @@ TukeyHSD(fit_oneway_3.1.1_weight)
 hf_2_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", "0.5% GO")) |>
   mutate(
-    time = as.numeric(time),
+    time = (as.numeric(time) - 1) * 10,
     coating = factor(
       coating,
       levels = c("DI Water", "Stock", "0.1% GO",
@@ -101,7 +101,7 @@ fig_3.1.2 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 0.1, linewidth = 0.5) +
+                width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
@@ -116,6 +116,8 @@ fig_3.1.2 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
                "0.2% GO" = 18,
                "0.5% GO" = 8)      
   ) +
+  scale_x_continuous(breaks = seq(10, 60, 10)) +
+  coord_cartesian(xlim = c(0, 60)) +
   labs(
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
@@ -124,7 +126,8 @@ fig_3.1.2 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    axis.title.x = element_text(face = "plain"),
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
     legend.position.inside = c(0.75, 0.20),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
