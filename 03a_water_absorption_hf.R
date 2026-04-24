@@ -27,7 +27,7 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 0.1, linewidth = 0.5) +
+                width = 3, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "0.1% GO" = "firebrick",
@@ -38,8 +38,8 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
                "0.1% GO" = 17,
                "5.85% Joncryl" = 15)
   ) +
-  scale_x_continuous(breaks = seq(10, 60, 10),
-                     limits = c(0, 60)) +
+  scale_x_continuous(breaks = seq(10, 60, 10)) +
+  coord_cartesian(xlim = c(0, 60)) +
   labs(
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
