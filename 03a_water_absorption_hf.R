@@ -22,7 +22,7 @@ hf_1_fig <- absorption_HF_fig |>
     ))
 
 fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
-                             color = coating, shape = coating)) +
+                                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
@@ -38,7 +38,10 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
                "0.1% GO" = 17,
                "5.85% Joncryl" = 15)
   ) +
-  scale_x_continuous(breaks = seq(0, 60, 10)) +
+  scale_x_continuous(
+    breaks = seq(10, 60, 10),   # starts at 10
+    limits = c(10, 60)          # removes 0 from display
+  ) +
   labs(
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
@@ -47,7 +50,10 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    axis.title.x = element_text(face = "plain"),
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
+    axis.text.x  = element_text(size = 14),
+    axis.text.y  = element_text(size = 14),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
