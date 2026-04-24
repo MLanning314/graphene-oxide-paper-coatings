@@ -46,7 +46,7 @@ fig_3.3.1 <- ggplot(md_3.3.1, aes(x = coating, y = mean_strength, fill = coating
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 75)) +
   labs(x = "", y = "Tensile Strength (N)") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank())
@@ -97,7 +97,7 @@ fig_3.3.3 <- ggplot(cd_3.3.3, aes(x = coating, y = mean_strength, fill = coating
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 40)) +
   labs(x = "", y = "Tensile Strength (N)") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank())
