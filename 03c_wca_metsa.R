@@ -186,7 +186,8 @@ fig_4.2.4 <- ggplot(wca_3_fig, aes(x = time, y = volume,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    axis.title.x = element_text(face = "plain"),
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
