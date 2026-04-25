@@ -84,7 +84,7 @@ TukeyHSD(fit_oneway_4.1.1_60)
 metsa_2_fig <- absorption_metsa_fig |>
   filter(coating %in% c("25% WBBC","25% WBBC + 0.1% GO", "0.1% GO", "Stock")) |>
   mutate(
-    time = as.numeric(time),
+    time = (as.numeric(time) - 1) * 10,
     coating = dplyr::recode(coating,
                             `25% WBBC + 0.1% GO` = "9.75% Joncryl + 0.1% GO",
                             `25% WBBC` = "9.75% Joncryl"),
@@ -100,7 +100,7 @@ fig_4.1.2 <- ggplot(metsa_2_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 0.1, linewidth = 0.5) +
+                width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("9.75% Joncryl" = "dodgerblue",
                "Stock" = "grey65",
@@ -114,7 +114,8 @@ fig_4.1.2 <- ggplot(metsa_2_fig, aes(x = time, y = absorption,
                "Stock" = 15,
                "9.75% Joncryl + 0.1% GO" = 18)
   ) +
-  scale_x_continuous(breaks = seq(0, 60, 10)) +
+  scale_x_continuous(breaks = seq(10, 60, 10)) +
+  coord_cartesian(xlim = c(0, 60)) +
   labs(
     x = "Time (min)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
@@ -123,7 +124,8 @@ fig_4.1.2 <- ggplot(metsa_2_fig, aes(x = time, y = absorption,
   ) +
   theme_classic(base_size = 12) +
   theme(
-    axis.title.x = element_text(face = "plain"),
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
     legend.position.inside = c(0.75, 0.25),
     legend.background = element_blank(),
     legend.text = element_text(size = 12)
