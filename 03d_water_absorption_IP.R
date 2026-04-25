@@ -97,7 +97,7 @@ fig_4.3.2 <- ggplot(IP_2_fig, aes(x = time, y = absorption,
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
                     ymax = absorption + rms),
-                width = 0.1, linewidth = 0.5) +
+                width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("0.2% GO" = "goldenrod1",
                "0.5% GO" = "springgreen1",
