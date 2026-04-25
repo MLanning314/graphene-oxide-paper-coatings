@@ -6,7 +6,7 @@ library(tidyverse)
 library(readxl)
 library(here)
 
-# clean tensile strength data
+# clean tensile strength data - mxmoon
 tensile_data <- read_excel("Tensile_Strength_WI2026.xlsx",
                                       sheet = "New Data") |>
   janitor::clean_names() |>
@@ -31,6 +31,27 @@ tensile_strength_cd <- tensile_data |>
 save(tensile_data, file = here("data/tensile_data.rda"))
 save(tensile_strength_md, file = here("data/tensile_strength_md.rda"))
 save(tensile_strength_cd, file = here("data/tensile_strength_cd.rda"))
+
+# clean tensile strength data - clammp
+tensile_data_clammp <- read_excel("tensile_strength_clammp.xlsx",
+                           sheet = "Sheet1") |>
+  janitor::clean_names() |>
+  mutate(
+    coating = as.factor(coating),
+    paper_type = as.factor(paper_type),
+    direction = as.factor(direction),
+    size = as.factor(size)
+  )
+
+# make separate datasets for machine direction and cross direction
+tensile_clammp_md <- tensile_data_clammp |>
+  filter(direction == "Machine")
+
+# save data
+save(tensile_data_clammp, file = here("data/tensile_data_clammp.rda"))
+save(tensile_clammp_md, file = here("data/tensile_clammp_md.rda"))
+
+
 
 
 # clean water absorption data for HelloFresh
