@@ -14,7 +14,7 @@ load(here("data/wca_data_metsa.rda"))
 wca_1_fig <- wca_data_metsa |>
   filter(coating %in% c("DI Water", "0.1% GO", "Stock")) |>
   mutate(
-    time = (as.numeric(time) - 1) * 10,
+    time = as.numeric(time),
     coating = factor(
       coating,
       levels = c("Stock", "DI Water", "0.1% GO")))
@@ -34,7 +34,6 @@ fig_4.2.1 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
                "Stock" = 15)
   ) +
   scale_x_continuous(breaks = seq(0, 600, 100)) +
-  coord_cartesian(xlim = c(0, 600)) +
   labs(
     x = "Time (s)",
     y = "Absorbed water weight / unit dry paper weight (gm/gm)",
