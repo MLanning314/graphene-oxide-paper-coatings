@@ -44,12 +44,18 @@ tensile_data_clammp <- read_excel("tensile_strength_clammp.xlsx",
   )
 
 # make separate datasets for machine direction and cross direction
-tensile_clammp_md <- tensile_data_clammp |>
-  filter(direction == "Machine")
+tappi_clammp_md <- tensile_data_clammp |>
+  filter(direction == "Machine",
+         size == "TAPPI")
+
+small_clammp_md <- tensile_data_clammp |>
+  filter(direction == "Machine",
+         size == "Small")
 
 # save data
 save(tensile_data_clammp, file = here("data/tensile_data_clammp.rda"))
-save(tensile_clammp_md, file = here("data/tensile_clammp_md.rda"))
+save(tappi_clammp_md, file = here("data/tappi_clammp_md.rda"))
+save(small_clammp_md, file = here("data/small_clammp_md.rda"))
 
 
 
