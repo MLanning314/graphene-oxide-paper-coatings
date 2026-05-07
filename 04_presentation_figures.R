@@ -127,8 +127,9 @@ md_pres <- tensile_strength_md |>
                                      "Stock", 
                                      "15% WBBC",
                                      "15% WBBC + 0.1% GO"),
-                          labels = c("DI Water", "Stock",
+                          labels = c("DI Water",
                                      "0.1 wt% GO",
+                                     "Stock",
                                      "9.75% Joncryl",
                                      "9.75% Joncryl + 0.1% GO"))) |>
   summarise(
