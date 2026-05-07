@@ -147,13 +147,18 @@ pres_fig_3 <- ggplot(md_pres, aes(x = coating, y = mean_strength, fill = coating
     "9.75% Joncryl" = "goldenrod1",
     "9.75% Joncryl + 0.1% GO" = "seagreen2"
   )) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 75)) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 75),
+                     breaks = seq(10, 75, by = 20)) +
   labs(x = "", y = "Tensile Strength (N)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
         legend.position = "none",
         panel.grid.major = element_blank(),   
-        panel.grid.minor = element_blank())
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(color = "black"),
+        axis.ticks.length = unit(0.2, "cm"),
+        axis.line.y = element_line(color = "black"),
+        axis.line.x = element_line(color = "black"))
 
 ggsave("presentation_figures/pres_fig_3.png", plot = pres_fig_3,
        width = 10, height = 6, units = "in", dpi = 600)
