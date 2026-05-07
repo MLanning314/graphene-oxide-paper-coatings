@@ -83,7 +83,7 @@ pres_fig_2 <- ggplot(pres_2_fig, aes(x = time, y = absorption,
                     ymax = absorption + rms),
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
-    values = c("DI Water" = "grey65",
+    values = c("DI Water" = "dodgerblue",
                "0.1% GO" = "firebrick",
                "9.75% Joncryl" = "goldenrod1",
                "9.75% Joncryl + 0.1% GO" = "springgreen1"
@@ -111,5 +111,5 @@ pres_fig_2 <- ggplot(pres_2_fig, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/pres_fig_2.png", plot = pres_fig_2,
+ggsave("presentation_figures/pres_fig_2.png", plot = pres_fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
