@@ -119,11 +119,17 @@ ggsave("presentation_figures/pres_fig_2.png", plot = pres_fig_2,
 
 md_pres <- tensile_strength_md |>
   group_by(coating) |>
+  filter(coating %in% c("DI Water", "Stock", "0.1 wt% GO",
+                        "15% WBBC", "15% WBBC + 0.1% GO")) |>
   mutate(coating = factor(coating, 
                           levels = c("DI Water", "Stock", 
                                      "0.1 wt% GO",
                                      "15% WBBC",
-                                     "15% WBBC + 0.1% GO"))) |>
+                                     "15% WBBC + 0.1% GO"),
+                          labels = c("DI Water", "Stock",
+                                     "0.1 wt% GO",
+                                     "9.75% Joncryl",
+                                     "9.75% Joncryl + 0.1% GO"))) |>
   summarise(
     mean_strength = mean(tensile_strength_n),
     sd_strength = sd(tensile_strength_n),
@@ -138,8 +144,8 @@ pres_fig_3 <- ggplot(md_pres, aes(x = coating, y = mean_strength, fill = coating
     "DI Water" = "dodgerblue",
     "Stock" = "grey65",
     "0.1 wt% GO" = "firebrick",
-    "15% WBBC" = "goldenrod1",
-    "15% WBBC + 0.1% GO" = "seagreen2"
+    "9.75% Joncryl" = "goldenrod1",
+    "9.75% Joncryl + 0.1% GO" = "seagreen2"
   )) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 75)) +
   labs(x = "", y = "Tensile Strength (N)") +
