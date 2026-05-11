@@ -10,7 +10,7 @@ library(car)
 load(here("data/absorption_data_HF.rda"))
 load(here("data/absorption_HF_fig.rda"))
 
-# formatting for figure 3.1.1
+# formatting for figure 3.1.2
 
 hf_1_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "0.1% GO", "15% WBBC")) |>
@@ -23,7 +23,7 @@ hf_1_fig <- absorption_HF_fig |>
       levels = c("DI Water", "0.1 wt% GO", "5.85 wt% Joncryl")
     ))
 
-fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
+fig_3.1.2 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
                              color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -57,7 +57,7 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
     legend.text = element_text(size = 12, face = "plain")
   )
 
-ggsave("figures/fig_3.1.1.png", plot = fig_3.1.1,
+ggsave("figures/fig_3.1.2.png", plot = fig_3.1.2,
        width = 10, height = 6, units = "in", dpi = 600)
 # anova for DI water, 0.1% GO, 15% WBBC
 
@@ -87,7 +87,7 @@ TukeyHSD(fit_oneway_3.1.1_weight)
 
 
 
-# formatting for figure 3.1.2
+# formatting for figure 3.1.3
 hf_2_fig <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", "0.5% GO")) |>
   mutate(
@@ -97,7 +97,7 @@ hf_2_fig <- absorption_HF_fig |>
       levels = c("DI Water", "Stock", "0.1% GO",
                  "0.2% GO", "0.5% GO")))
 
-fig_3.1.2 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
+fig_3.1.3 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
                              color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -135,7 +135,7 @@ fig_3.1.2 <- ggplot(hf_2_fig, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/fig_3.1.2.png", plot = fig_3.1.2,
+ggsave("figures/fig_3.1.3.png", plot = fig_3.1.3,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for DI water, 0.1% GO, 0.2% GO, 0.5% GO, and stock
@@ -173,7 +173,7 @@ hf_3_fig <- absorption_HF_fig |>
            dplyr::recode(coating, `15% WBBC` = "5.85% Joncryl"),
            levels = c("0.2% GO", "0.5% GO", "5.85% Joncryl")))
 
-fig_3.1.3 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
+fig_3.1.4 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
                                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -207,7 +207,7 @@ fig_3.1.3 <- ggplot(hf_3_fig, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/fig_3.1.3.png", plot = fig_3.1.3,
+ggsave("figures/fig_3.1.4.png", plot = fig_3.1.4,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for 0.2% GO, 0.5% GO, and 15% WBBC
@@ -253,7 +253,7 @@ hf_4_fig <- absorption_HF_fig |>
 
 
 
-fig_3.1.4 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
+fig_3.1.5 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
                                  color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -293,7 +293,7 @@ fig_3.1.4 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
-ggsave("figures/fig_3.1.4.png", plot = fig_3.1.4,
+ggsave("figures/fig_3.1.5.png", plot = fig_3.1.5,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # anova for various WBBC coatings
