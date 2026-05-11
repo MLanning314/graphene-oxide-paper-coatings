@@ -16,9 +16,10 @@ IP_1_fig <- absorption_IP_fig |>
                         "25% WBBC")) |>
   mutate(time = (as.numeric(time) - 1) * 10,
          coating = dplyr::recode(coating,
-                                 `25% WBBC` = "9.75% Joncryl"),
+                                 `25% WBBC` = "9.75 wt% Joncryl",
+                                 `0.1% GO` = "0.1 wt% GO"),
          coating = factor(coating,
-           levels = c("Stock", "DI Water", "0.1% GO", "9.75% Joncryl")))
+           levels = c("Stock", "DI Water", "0.1 wt% GO", "9.75 wt% Joncryl")))
 
 fig_4.3.1 <- ggplot(IP_1_fig, aes(x = time, y = absorption,
                                      color = coating, shape = coating)) +
@@ -30,15 +31,15 @@ fig_4.3.1 <- ggplot(IP_1_fig, aes(x = time, y = absorption,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "0.1% GO" = "firebrick",
-               "9.75% Joncryl" = "goldenrod1"
+               "0.1 wt% GO" = "firebrick",
+               "9.75 wt% Joncryl" = "goldenrod1"
     )
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
-               "0.1% GO" = 17,
+               "0.1 wt% GO" = 17,
                "Stock" = 15,
-               "9.75% Joncryl" = 18)
+               "9.75 wt% Joncryl" = 18)
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
   coord_cartesian(xlim = c(0, 60)) +
