@@ -16,8 +16,9 @@ metsa_1_fig <- absorption_metsa_fig |>
   filter(coating %in% c("DI Water", "0.1% GO", "Stock")) |>
   mutate(time = (as.numeric(time) - 1) * 10,
          coating = factor(
-           coating,
-           levels = c("DI Water", "0.1% GO",
+           dplyr::recode(coating, 
+                         `0.1% GO` = "0.1 wt% GO"),
+           levels = c("DI Water", "0.1 wt% GO",
                       "Stock")))
 
 fig_4.1.1 <- ggplot(metsa_1_fig, aes(x = time, y = absorption,
@@ -30,11 +31,11 @@ fig_4.1.1 <- ggplot(metsa_1_fig, aes(x = time, y = absorption,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "0.1% GO" = "firebrick")
+               "0.1 wt% GO" = "firebrick")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
-               "0.1% GO" = 17,
+               "0.1 wt% GO" = 17,
                "Stock" = 15)
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
