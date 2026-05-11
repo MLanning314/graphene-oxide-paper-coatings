@@ -335,13 +335,14 @@ hf_5_fig <- absorption_HF_fig |>
   mutate(
     time = (as.numeric(time) - 1) * 10,
     coating = dplyr::recode(coating,
-                            `25% WBBC + 0.1% GO` = "9.75% Joncryl + 0.1% GO",
-                            `25% WBBC` = "9.75% Joncryl"),
+                            `25% WBBC + 0.1% GO` = "9.75 wt% Joncryl + 0.1% GO",
+                            `25% WBBC` = "9.75 wt% Joncryl",
+                            `0.1% GO` = "0.1 wt% GO"),
     coating = factor(coating,
                      levels = c("Stock",
-                                "0.1% GO",
-                                "9.75% Joncryl",
-                                "9.75% Joncryl + 0.1% GO")))
+                                "0.1 wt% GO",
+                                "9.75 wt% Joncryl",
+                                "9.75 wt% Joncryl + 0.1% GO")))
 
 
 fig_3.2.1 <- ggplot(hf_5_fig, aes(x = time, y = absorption,
@@ -353,15 +354,15 @@ fig_3.2.1 <- ggplot(hf_5_fig, aes(x = time, y = absorption,
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("Stock" = "grey65",
-               "0.1% GO" = "firebrick",
-               "9.75% Joncryl" = "dodgerblue",
-               "9.75% Joncryl + 0.1% GO" = "springgreen1"
+               "0.1 wt% GO" = "firebrick",
+               "9.75 wt% Joncryl" = "dodgerblue",
+               "9.75 wt% Joncryl + 0.1% GO" = "springgreen1"
   )) +
   scale_shape_manual(
     values = c( "Stock" = 16,
-               "0.1% GO" = 15,
-               "9.75% Joncryl" = 18,
-               "9.75% Joncryl + 0.1% GO" = 17)
+               "0.1 wt% GO" = 15,
+               "9.75 wt% Joncryl" = 18,
+               "9.75 wt% Joncryl + 0.1% GO" = 17)
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
   coord_cartesian(xlim = c(0, 60)) +
