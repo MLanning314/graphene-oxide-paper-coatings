@@ -134,7 +134,7 @@ fig_4.2.3 <- ggplot(wca_3_fig, aes(x = time, y = contact_angle,
   scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
     x = "Time (s)",
-    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    y = "Water contact angle (º)",
     color = NULL,
     shape = NULL
   ) +
