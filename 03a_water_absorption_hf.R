@@ -246,17 +246,17 @@ hf_4_fig <- absorption_HF_fig |>
   mutate(
     time = (as.numeric(time) - 1) * 10,
     coating = dplyr::recode(coating,
-                            `1% WBBC`  = "0.39% Joncryl",
-                            `5% WBBC`  = "1.95% Joncryl",
-                            `15% WBBC` = "5.85% Joncryl",
-                            `25% WBBC` = "9.75% Joncryl"),
+                            `1% WBBC`  = "0.39 wt% Joncryl",
+                            `5% WBBC`  = "1.95 wt% Joncryl",
+                            `15% WBBC` = "5.85 wt% Joncryl",
+                            `25% WBBC` = "9.75 wt% Joncryl"),
     coating = factor(coating,
       levels = c("DI Water",
                  "Stock",
-                 "0.39% Joncryl",
-                 "1.95% Joncryl",
-                 "9.75% Joncryl",
-                 "5.85% Joncryl")))
+                 "0.39 wt% Joncryl",
+                 "1.95 wt% Joncryl",
+                 "9.75 wt% Joncryl",
+                 "5.85 wt% Joncryl")))
 
 
 
@@ -270,18 +270,18 @@ fig_3.1.5 <- ggplot(hf_4_fig, aes(x = time, y = absorption,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "0.39% Joncryl" = "firebrick",
-               "1.95% Joncryl" = "springgreen1",
-               "5.85% Joncryl" = "goldenrod1",
-               "9.75% Joncryl" = "mediumpurple1")
+               "0.39 wt% Joncryl" = "firebrick",
+               "1.95 wt% Joncryl" = "springgreen1",
+               "5.85 wt% Joncryl" = "goldenrod1",
+               "9.75 wt% Joncryl" = "mediumpurple1")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
                "Stock" = 4,
-               "0.39% Joncryl" = 15,
-               "1.95% Joncryl" = 18,
-               "5.85% Joncryl" = 8,
-               "9.75% Joncryl" = 17)
+               "0.39 wt% Joncryl" = 15,
+               "1.95 wt% Joncryl" = 18,
+               "5.85 wt% Joncryl" = 8,
+               "9.75 wt% Joncryl" = 17)
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
   coord_cartesian(xlim = c(0, 60)) +
