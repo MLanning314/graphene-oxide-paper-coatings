@@ -16,8 +16,9 @@ wca_1_fig <- wca_data_metsa |>
   mutate(
     time = as.numeric(time),
     coating = factor(
-      coating,
-      levels = c("Stock", "DI Water", "0.1% GO")))
+      dplyr::recode(coating, 
+                    `0.1% GO` = "0.1 wt% GO"),
+      levels = c("Stock", "DI Water", "0.1 wt% GO")))
 
 fig_4.2.1 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
                                        color = coating, shape = coating)) +
@@ -26,17 +27,17 @@ fig_4.2.1 <- ggplot(wca_1_fig, aes(x = time, y = contact_angle,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "0.1% GO" = "firebrick")
+               "0.1 wt% GO" = "firebrick")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
-               "0.1% GO" = 17,
+               "0.1 wt% GO" = 17,
                "Stock" = 15)
   ) +
   scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
     x = "Time (s)",
-    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    y = "Water contact angle (º)",
     color = NULL,
     shape = NULL
   ) +
