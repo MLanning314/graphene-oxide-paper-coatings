@@ -14,13 +14,20 @@ load(here("data/tensile_strength_cd.rda"))
 # compute mean and sd per coating
 md_3.3.1 <- tensile_strength_md |>
   group_by(coating) |>
-  mutate(coating = factor(coating, 
+  mutate(coating = dplyr::recode(
+    coating,
+    `5% WBBC` = "1.95 wt% Joncryl",
+    `15% WBBC` = "5.85 wt% Joncryl",
+    `5% WBBC + 0.1% GO` = "1.95 wt% Joncryl + 0.1 wt% GO",
+    `15% WBBC + 0.1% GO` = "5.85 wt% Joncryl + 0.1 wt% GO"
+  ),
+    coating = factor(coating, 
                           levels = c("DI Water", "Stock", 
                                      "0.1 wt% GO", "0.2 wt% GO", 
                                      "0.35 wt% GO", "0.5 wt% GO",
-                                     "5% WBBC", "15% WBBC",
-                                     "5% WBBC + 0.1% GO",
-                                     "15% WBBC + 0.1% GO"))) |>
+                                     "1.95 wt% Joncryl", "5.85 wt% Joncryl",
+                                     "1.95 wt% Joncryl + 0.1 wt% GO",
+                                     "5.85 wt% Joncryl + 0.1 wt% GO"))) |>
   summarise(
     mean_strength = mean(tensile_strength_n),
     sd_strength = sd(tensile_strength_n),
@@ -38,18 +45,23 @@ fig_3.3.1 <- ggplot(md_3.3.1, aes(x = coating, y = mean_strength, fill = coating
     "0.2 wt% GO" = "firebrick",
     "0.35 wt% GO" = "firebrick",
     "0.5 wt% GO" = "firebrick",
-    "5% WBBC" = "goldenrod1",
-    "15% WBBC" = "goldenrod1",
-    "5% WBBC + 0.1% GO" = "seagreen2",
-    "15% WBBC + 0.1% GO" = "seagreen2"
+    "1.95 wt% Joncryl" = "goldenrod1",
+    "5.85 wt% Joncryl" = "goldenrod1",
+    "1.95 wt% Joncryl + 0.1 wt% GO" = "seagreen2",
+    "5.85 wt% Joncryl + 0.1 wt% GO" = "seagreen2"
   )) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 75)) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 75),
+                     breaks = seq(10, 75, by = 20)) +
   labs(x = "", y = "Tensile Strength (N)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
-        legend.position = "none",
-        panel.grid.major = element_blank(),   
-        panel.grid.minor = element_blank())
+      legend.position = "none",
+      panel.grid.major = element_blank(),   
+      panel.grid.minor = element_blank(),
+      axis.ticks = element_line(color = "black"),
+      axis.ticks.length = unit(0.2, "cm"),
+      axis.line.y = element_line(color = "black"),
+      axis.line.x = element_line(color = "black"))
 
 ggsave("figures/fig_3.3.1.png", plot = fig_3.3.1,
        width = 10, height = 6, units = "in", dpi = 600)
