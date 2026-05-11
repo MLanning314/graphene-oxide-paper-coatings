@@ -168,21 +168,21 @@ fig_4.2.4 <- ggplot(wca_3_fig, aes(x = time, y = volume,
   geom_line(linewidth = 1) +
   geom_point(size = 2) +
   scale_color_manual(
-    values = c("9.75% Joncryl" = "dodgerblue",
+    values = c("9.75 wt% Joncryl" = "dodgerblue",
                "Stock" = "grey65",
-               "0.1% GO" = "firebrick",
-               "9.75% Joncryl + 0.1% GO" = "seagreen2")
+               "0.1 wt% GO" = "firebrick",
+               "9.75 wt% Joncryl + 0.1 wt% GO" = "seagreen2")
   ) +
   scale_shape_manual(
-    values = c("9.75% Joncryl" = 16,
-               "0.1% GO" = 17,
+    values = c("9.75 wt% Joncryl" = 16,
+               "0.1 wt% GO" = 17,
                "Stock" = 15,
-               "9.75% Joncryl + 0.1% GO" = 18)
+               "9.75 wt% Joncryl + 0.1 wt% GO" = 18)
   ) +
   scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
     x = "Time (s)",
-    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    y = "Sessile volume (ul)",
     color = NULL,
     shape = NULL
   ) +
