@@ -17,8 +17,10 @@ hf_1_fig <- absorption_HF_fig |>
   mutate(
     time = (as.numeric(time) - 1) * 10,
     coating = factor(
-      dplyr::recode(coating, `15% WBBC` = "5.85% Joncryl"),
-      levels = c("DI Water", "0.1% GO", "5.85% Joncryl")
+      dplyr::recode(coating, 
+                    `15% WBBC` = "5.85 wt% Joncryl",
+                    `0.1% GO` = "0.1 wt% GO"),
+      levels = c("DI Water", "0.1 wt% GO", "5.85 wt% Joncryl")
     ))
 
 fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
@@ -30,13 +32,13 @@ fig_3.1.1 <- ggplot(hf_1_fig, aes(x = time, y = absorption,
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
-               "0.1% GO" = "firebrick",
-               "5.85% Joncryl" = "goldenrod1")
+               "0.1 wt% GO" = "firebrick",
+               "5.85 wt% Joncryl" = "goldenrod1")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
-               "0.1% GO" = 17,
-               "5.85% Joncryl" = 15)
+               "0.1 wt% GO" = 17,
+               "5.85 wt% Joncryl" = 15)
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
   coord_cartesian(xlim = c(0, 60)) +
