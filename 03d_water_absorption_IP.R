@@ -88,7 +88,7 @@ IP_2_fig <- absorption_IP_fig |>
                         "25% WBBC")) |>
   mutate(time = (as.numeric(time) - 1) * 10,
          coating = dplyr::recode(coating,
-                                 `25% WBBC` = "9.75% Joncryl",
+                                 `25% WBBC` = "9.75 wt% Joncryl",
                                  `0.2% GO` = "0.2 wt% GO",
                                  `0.5% GO` = "0.5 wt% GO",
                                  `0.1% GO` = "0.1 wt% GO"),
