@@ -73,17 +73,17 @@ fig_4.2.2 <- ggplot(wca_1_fig, aes(x = time, y = volume,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "0.1% GO" = "firebrick")
+               "0.1 wt% GO" = "firebrick")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
-               "0.1% GO" = 17,
+               "0.1 wt% GO" = 17,
                "Stock" = 15)
   ) +
   scale_x_continuous(breaks = seq(0, 600, 100)) +
   labs(
     x = "Time (s)",
-    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    y = "Sessile Volume (ul)",
     color = NULL,
     shape = NULL
   ) +
