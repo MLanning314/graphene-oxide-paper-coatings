@@ -122,4 +122,13 @@ absorption_IP_fig <- read_excel("IP_Absorption.xlsx",
 save(absorption_data_IP, file = here("data/absorption_data_IP.rda"))
 save(absorption_IP_fig, file = here("data/absorption_IP_fig.rda"))
 
+# clean distance graph data for tensile testing on CLaMMP
+distance_data_clammp <- read_excel("distance_graphs_clammp.xlsx",
+                                   sheet = "Sheet1") |>
+  janitor::clean_names() |>
+  mutate(coating = as.factor(coating))
+
+# save data
+save(distance_data_clammp, file = here("data/distance_data_clammp.rda"))
+
 
