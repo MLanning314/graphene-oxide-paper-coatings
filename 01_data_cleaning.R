@@ -131,4 +131,14 @@ distance_data_clammp <- read_excel("distance_graphs_clammp.xlsx",
 # save data
 save(distance_data_clammp, file = here("data/distance_data_clammp.rda"))
 
+# import handsheet data
+handsheet_absorption <- read_excel("greif_handsheet_absorption.xlsx",
+                                   sheet = "Formatting for R") |>
+  janitor::clean_names() |>
+  mutate(coating = as.factor(coating))
+
+# save data
+save(handsheet_absorption, file = here("data/handsheet_absorption.rda"))
+
+
 
