@@ -140,5 +140,15 @@ handsheet_absorption <- read_excel("greif_handsheet_absorption.xlsx",
 # save data
 save(handsheet_absorption, file = here("data/handsheet_absorption.rda"))
 
+# examine tensile and burst index from myself and Jason (WMU)
+tensile_burst_index <- read_excel("tensile_burst_index.xlsx",
+                                   sheet = "Sheet1") |>
+  janitor::clean_names() |>
+  mutate(condition = as.factor(condition))
+
+# save data
+save(tensile_burst_index, file = here("data/tensile_burst_index.rda"))
+
+
 
 
