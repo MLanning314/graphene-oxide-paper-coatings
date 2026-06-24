@@ -29,6 +29,8 @@ TukeyHSD(tensile_index_j)
 
 tensile_index_m <- aov(tensile_index_m ~ condition, data = tensile_burst_index)
 summary(tensile_index_m)
+TukeyHSD(tensile_index_m)
 
 burst_index <- aov(burst_index_j ~ condition, data = tensile_burst_index)
 summary(burst_index)
+TukeyHSD(burst_index)
