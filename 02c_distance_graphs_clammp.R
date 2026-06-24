@@ -33,9 +33,11 @@ region_results <- distance_data_clammp |>
     max_strain <- max(dat$strain,
                       na.rm = TRUE)
     
-    # 0-15% region
-    region_0_15 <- dat |>
-      filter(strain <= 0.15 * max_strain)
+    # 5-15% region
+    region_5_15 <- dat |>
+      filter(
+        strain > 0.05 * max_strain,
+        strain <= 0.15 * max_strain)
     
     # 15-50% region
     region_15_50 <- dat |>
@@ -46,7 +48,7 @@ region_results <- distance_data_clammp |>
     
     # save regions in list
     region_list <- list(
-      pct_0_15 = region_0_15,
+      pct_5_15 = region_5_15,
       pct_15_50 = region_15_50
     )
     
