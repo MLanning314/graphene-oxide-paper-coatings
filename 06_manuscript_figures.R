@@ -140,8 +140,8 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
         axis.line.y = element_line(color = "black"),
         axis.line.x = element_line(color = "black")) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
-  annotate("text", x = 2, y = 58, label = "ASA", size = 5) +
-  annotate("text", x = 6, y = 58, label = "AKD", size = 5)
+  annotate("text", x = 2, y = 4.8, label = "ASA", size = 5) +
+  annotate("text", x = 6, y = 4.8, label = "AKD", size = 5)
 
 ggsave("figures/fig_4b.png", plot = fig_4b,
        width = 10, height = 6, units = "in", dpi = 600)
