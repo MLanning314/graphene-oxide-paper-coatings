@@ -47,6 +47,12 @@ tensile_index_m <- aov(tensile_index_m ~ condition, data = tensile_burst_index)
 summary(tensile_index_m)
 TukeyHSD(tensile_index_m)
 
-burst_index <- aov(burst_index_j ~ condition, data = tensile_burst_index)
-summary(burst_index)
-TukeyHSD(burst_index)
+burst_index_akd <- aov(burst_index_j ~ condition, data = handsheet_strength_akd)
+summary(burst_index_akd)
+TukeyHSD(burst_index_akd)
+
+burst_index_asa <- aov(burst_index_j ~ condition, data = handsheet_strength_asa)
+summary(burst_index_asa)
+TukeyHSD(burst_index_asa)
+
+# plotting WMU data separated by ASA and AKD
