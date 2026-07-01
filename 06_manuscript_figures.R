@@ -8,6 +8,68 @@ library(car)
 
 # Load data
 load(here("data/tensile_burst_index.rda"))
+load(here("data/absorption_data_HF.rda"))
+load(here("data/absorption_HF_fig.rda"))
+
+# formatting for figure 3.1.3
+fig_1_summary <- absorption_HF_fig |>
+  filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", 
+                        "0.5% GO", "15% WBBC")) |>
+  mutate(
+    time = (as.numeric(time) - 1) * 10,
+    coating = factor(
+      dplyr::recode(coating, 
+                    `0.1% GO` = "0.1 wt% GO",
+                    `0.2% GO` = "0.2 wt% GO",
+                    `0.5% GO` = "0.5 wt% GO",
+                    `15% WBBC` = "5.85 wt% SA"),
+      levels = c("DI Water", "Stock", "0.1 wt% GO",
+                 "0.2 wt% GO", "0.5 wt% GO", "5.85 wt% SA")))
+
+
+fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
+                                  color = coating, shape = coating)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = absorption - rms,
+                    ymax = absorption + rms),
+                width = 1, linewidth = 0.5) +
+  scale_color_manual(
+    values = c("DI Water" = "dodgerblue",
+               "Stock" = "grey65",
+               "0.1 wt% GO" = "firebrick",
+               "0.2 wt% GO" = "goldenrod1",
+               "0.5 wt% GO" = "springgreen1",
+               "5.85 wt% SA" = "purple")
+  ) +
+  scale_shape_manual(
+    values = c("DI Water" = 16,
+               "Stock" = 15,
+               "0.1 wt% GO" = 8,
+               "0.2 wt% GO" = 18,
+               "0.5 wt% GO" = 17,
+               "5.85 wt% SA" = 4)      
+  ) +
+  scale_x_continuous(breaks = seq(10, 60, 10)) +
+  coord_cartesian(xlim = c(0, 60)) +
+  labs(
+    x = "Time (min)",
+    y = "Absorbed water weight / unit dry paper weight (gm/gm)",
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    axis.title.x = element_text(size = 16, face = "plain"),
+    axis.title.y = element_text(size = 16, face = "plain"),
+    legend.position.inside = c(0.75, 0.20),
+    legend.background = element_blank(),
+    legend.text = element_text(size = 12)
+  )
+
+ggsave("figures/fig_1.png", plot = fig_1,
+       width = 10, height = 6, units = "in", dpi = 600)
+
 
 # figure 4a
 # compute mean and sd per coating
@@ -129,7 +191,7 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
   ) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 5),
                      breaks = seq(0, 5, by = 1)) +
-  labs(x = "", y = "Burst Index (kPa.m2/g)") +
+  labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
         legend.position = "none",
