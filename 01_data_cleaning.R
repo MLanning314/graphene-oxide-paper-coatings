@@ -1,11 +1,14 @@
 
-# Cleaning raw Excel file and making data suitable for analysis
+# Data Cleaning ----
+# cleaning raw Excel file and making data suitable for analysis
 
 # Load Packages
 library(tidyverse)
 library(readxl)
 library(here)
 
+--------------------------------------------------------------------------
+## Tensile Strength - MxMoonfree ----
 # clean tensile strength data - mxmoon
 tensile_data <- read_excel("Tensile_Strength_WI2026.xlsx",
                                       sheet = "New Data") |>
@@ -31,6 +34,8 @@ tensile_strength_cd <- tensile_data |>
 save(tensile_data, file = here("data/tensile_data.rda"))
 save(tensile_strength_md, file = here("data/tensile_strength_md.rda"))
 save(tensile_strength_cd, file = here("data/tensile_strength_cd.rda"))
+
+--------------------------------------------------------------------------
 
 # clean tensile strength data - clammp
 tensile_data_clammp <- read_excel("tensile_strength_clammp.xlsx",

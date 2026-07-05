@@ -12,6 +12,8 @@ load(here("data/tensile_burst_index.rda"))
 load(here("data/absorption_data_HF.rda"))
 load(here("data/absorption_HF_fig.rda"))
 
+--------------------------------------------------------------------------
+
 ## Figure 1 ----
 # cleaning data for figure 1
 fig_1_summary <- absorption_HF_fig |>
@@ -73,6 +75,7 @@ fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
 ggsave("figures/fig_1.png", plot = fig_1,
        width = 10, height = 6, units = "in", dpi = 600)
 
+--------------------------------------------------------------------------
 
 ## Figure 2 ----
 # cleaning data for figure 2
@@ -133,6 +136,7 @@ fig_2 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
 ggsave("figures/fig_2.png", plot = fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
 
+--------------------------------------------------------------------------
 
 ## Figure 4 ----
 
@@ -281,4 +285,4 @@ fig_4 <- (fig_4a / fig_4b) +
 ggsave("figures/fig_4.png", plot = fig_4,
        width = 14, height = 14, units = "in", dpi = 600)
 
-
+--------------------------------------------------------------------------
