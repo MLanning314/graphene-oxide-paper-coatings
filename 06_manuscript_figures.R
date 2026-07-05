@@ -5,6 +5,7 @@
 library(tidyverse)
 library(here)
 library(car)
+library(patchwork)
 
 # Load data
 load(here("data/tensile_burst_index.rda"))
@@ -184,20 +185,19 @@ fig_4a <- ggplot(fig_4a_summary, aes(x = xpos, y = mean_strength, fill = conditi
                      breaks = seq(0, 60, by = 15)) +
   labs(x = "", y = "Tensile Index (N.m/g)") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
+  theme(axis.text.x = element_blank(),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank(),
-        axis.ticks = element_line(color = "black"),
+        axis.ticks = element_blank(),
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.y = element_line(color = "black"),
-        axis.line.x = element_line(color = "black")) +
+        axis.line.x = element_line(color = "black"),
+        plot.tag = element_text(face = "bold", size = 14),
+        plot.margin = margin(5.5, 5.5, 5.5, 20)) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
   annotate("text", x = 2, y = 58, label = "ASA", size = 5) +
   annotate("text", x = 6, y = 58, label = "AKD", size = 5)
-
-ggsave("figures/fig_4a.png", plot = fig_4a,
-       width = 10, height = 6, units = "in", dpi = 600)
 
 # figure 4b
 fig_4b_summary <- tensile_burst_index |>
@@ -258,11 +258,19 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
         axis.ticks = element_line(color = "black"),
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.y = element_line(color = "black"),
-        axis.line.x = element_line(color = "black")) +
+        axis.line.x = element_line(color = "black"),
+        plot.tag = element_text(face = "bold", size = 14),
+        plot.margin = margin(5.5, 5.5, 5.5, 20)) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
   annotate("text", x = 2, y = 4.8, label = "ASA", size = 5) +
   annotate("text", x = 6, y = 4.8, label = "AKD", size = 5)
 
-ggsave("figures/fig_4b.png", plot = fig_4b,
-       width = 10, height = 6, units = "in", dpi = 600)
+# use patchwork to combine the plots together for figure 4
+fig_4 <- (fig_4a / fig_4b) +
+  plot_annotation(tag_levels = "A")
+
+# save figure 4
+ggsave("figures/fig_4.png", plot = fig_4,
+       width = 14, height = 14, units = "in", dpi = 600)
+
 
