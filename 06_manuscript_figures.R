@@ -1,18 +1,19 @@
 
-# Working on Figures for ACS Manuscript
+# Figures for ACS Manuscript ----
 
-# Load Packages 
+## Load Packages ----
 library(tidyverse)
 library(here)
 library(car)
 library(patchwork)
 
-# Load data
+## Load data ----
 load(here("data/tensile_burst_index.rda"))
 load(here("data/absorption_data_HF.rda"))
 load(here("data/absorption_HF_fig.rda"))
 
-# formatting for figure 3.1.3
+## Figure 1 ----
+# cleaning data for figure 1
 fig_1_summary <- absorption_HF_fig |>
   filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", 
                         "0.5% GO", "15% WBBC")) |>
@@ -27,7 +28,7 @@ fig_1_summary <- absorption_HF_fig |>
       levels = c("DI Water", "Stock", "0.1 wt% GO",
                  "0.2 wt% GO", "0.5 wt% GO", "5.85 wt% SA")))
 
-
+# plotting data for figure 1
 fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
                                   color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
@@ -68,11 +69,13 @@ fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
+# saving figure 1
 ggsave("figures/fig_1.png", plot = fig_1,
        width = 10, height = 6, units = "in", dpi = 600)
 
-# create figure 2
 
+## Figure 2 ----
+# cleaning data for figure 2
 fig_2_summary <- absorption_HF_fig |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
@@ -89,7 +92,7 @@ fig_2_summary <- absorption_HF_fig |>
                                 "9.75 wt% SA + 0.1 wt% GO")))
 
 
-# create figure 2
+# plotting data for figure 2
 fig_2 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
                                   color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
@@ -126,13 +129,15 @@ fig_2 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
     legend.text = element_text(size = 12)
   )
 
+# saving figure 2
 ggsave("figures/fig_2.png", plot = fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
 
 
+## Figure 4 ----
 
-# figure 4a
-# compute mean and sd per coating
+### Figure 4a: Tensile Index ----
+# compute mean and sd per coating and summarise
 fig_4a_summary <- tensile_burst_index |>
   filter(!is.na(tensile_index_j),
          !is.na(burst_index_j)) |>
@@ -157,7 +162,7 @@ fig_4a_summary <- tensile_burst_index |>
     .groups = "drop") |>
   mutate(xpos = c(1, 2, 3, 5, 6, 7))
 
-# create figure 4a
+# plotting data for figure 4a
 fig_4a <- ggplot(fig_4a_summary, aes(x = xpos, y = mean_strength, fill = condition)) +
   geom_bar(stat = "identity", width = 0.7) +
   geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
@@ -199,7 +204,8 @@ fig_4a <- ggplot(fig_4a_summary, aes(x = xpos, y = mean_strength, fill = conditi
   annotate("text", x = 2, y = 58, label = "ASA", size = 5) +
   annotate("text", x = 6, y = 58, label = "AKD", size = 5)
 
-# figure 4b
+### Figure 4b: Burst Index ----
+# compute mean and sd per coating and summarise
 fig_4b_summary <- tensile_burst_index |>
   filter(!is.na(tensile_index_j),
          !is.na(burst_index_j)) |>
@@ -224,6 +230,7 @@ fig_4b_summary <- tensile_burst_index |>
     .groups = "drop") |>
   mutate(xpos = c(1, 2, 3, 5, 6, 7))
 
+# plotting data for figure 4b
 fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = condition)) +
   geom_bar(stat = "identity", width = 0.7) +
   geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
@@ -265,7 +272,8 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
   annotate("text", x = 2, y = 4.8, label = "ASA", size = 5) +
   annotate("text", x = 6, y = 4.8, label = "AKD", size = 5)
 
-# use patchwork to combine the plots together for figure 4
+### Combination ----
+# use patchwork to combine the plots together for figure 4 
 fig_4 <- (fig_4a / fig_4b) +
   plot_annotation(tag_levels = "A")
 
