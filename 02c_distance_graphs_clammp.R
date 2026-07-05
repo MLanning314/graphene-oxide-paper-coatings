@@ -23,7 +23,7 @@ distance_data_clammp <- distance_data_clammp |>
 
 # define fitting regions
 region_results <- distance_data_clammp |>
-  group_by(sample, coating) |>
+  group_by(sample, coating, size) |>
   group_modify(~{
     
     # isolate one specimen
@@ -89,7 +89,7 @@ region_results <- distance_data_clammp |>
 
 # average slope and r2 by coating 
 region_summary <- region_results |>
-  group_by(sample, region, coating) |>
+  group_by(sample, region, coating, size) |>
   summarise(
     mean_modulus =
       mean(modulus, na.rm = TRUE),
@@ -102,7 +102,7 @@ region_summary <- region_results |>
 # anova and statistics
 
 anova_results <- region_results |>
-  group_by(region) |>
+  group_by(region, size) |>
   group_modify(~{
     fit <- aov(modulus ~ coating,
                data = .x)
@@ -110,7 +110,7 @@ anova_results <- region_results |>
   })
 
 tukey_results <- region_results |>
-  group_by(region) |>
+  group_by(region, size) |>
   group_modify(~{
     fit <- aov(modulus ~ coating,
                data = .x)
