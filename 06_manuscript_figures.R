@@ -12,7 +12,7 @@ load(here("data/tensile_burst_index.rda"))
 load(here("data/absorption_data_HF.rda"))
 load(here("data/absorption_HF_fig.rda"))
 
---------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 
 ## Figure 1 ----
 # cleaning data for figure 1
@@ -75,7 +75,7 @@ fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
 ggsave("figures/fig_1.png", plot = fig_1,
        width = 10, height = 6, units = "in", dpi = 600)
 
---------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 
 ## Figure 2 ----
 # cleaning data for figure 2
@@ -136,7 +136,7 @@ fig_2 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
 ggsave("figures/fig_2.png", plot = fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
 
---------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 
 ## Figure 4 ----
 
@@ -202,11 +202,11 @@ fig_4a <- ggplot(fig_4a_summary, aes(x = xpos, y = mean_strength, fill = conditi
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.y = element_line(color = "black"),
         axis.line.x = element_line(color = "black"),
-        plot.tag = element_text(face = "bold", size = 14),
+        plot.tag = element_text(face = "bold", size = 18),
         plot.margin = margin(5.5, 5.5, 5.5, 20)) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
-  annotate("text", x = 2, y = 58, label = "ASA", size = 5) +
-  annotate("text", x = 6, y = 58, label = "AKD", size = 5)
+  annotate("text", x = 2, y = 58, label = "ASA", size = 10) +
+  annotate("text", x = 6, y = 58, label = "AKD", size = 10)
 
 ### Figure 4b: Burst Index ----
 # compute mean and sd per coating and summarise
@@ -262,7 +262,8 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
                      breaks = seq(0, 5, by = 1)) +
   labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, color = "black"),
+  theme(axis.text.x = element_text(size = 14, face = "bold",
+                                   angle = 45, hjust = 1, color = "black"),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank(),
@@ -270,11 +271,11 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.y = element_line(color = "black"),
         axis.line.x = element_line(color = "black"),
-        plot.tag = element_text(face = "bold", size = 14),
+        plot.tag = element_text(face = "bold", size = 18),
         plot.margin = margin(5.5, 5.5, 5.5, 20)) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
-  annotate("text", x = 2, y = 4.8, label = "ASA", size = 5) +
-  annotate("text", x = 6, y = 4.8, label = "AKD", size = 5)
+  annotate("text", x = 2, y = 4.8, label = "ASA", size = 10) +
+  annotate("text", x = 6, y = 4.8, label = "AKD", size = 10)
 
 ### Combination ----
 # use patchwork to combine the plots together for figure 4 
@@ -285,4 +286,4 @@ fig_4 <- (fig_4a / fig_4b) +
 ggsave("figures/fig_4.png", plot = fig_4,
        width = 14, height = 14, units = "in", dpi = 600)
 
---------------------------------------------------------------------------
+
