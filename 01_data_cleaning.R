@@ -1,5 +1,5 @@
 
-# Data Cleaning ----
+# Data Cleaning --------------------------------------------------------------------------------------
 # cleaning raw Excel file and making data suitable for analysis
 
 # Load Packages
@@ -7,123 +7,78 @@ library(tidyverse)
 library(readxl)
 library(here)
 
-# --------------------------------------------------------------------------
-# clean tensile strength data - clammp
-tensile_data_clammp <- read_excel("tensile_strength_clammp.xlsx",
-                           sheet = "Sheet1") |>
-  janitor::clean_names() |>
-  mutate(
-    coating = as.factor(coating),
-    paper_type = as.factor(paper_type),
-    direction = as.factor(direction),
-    size = as.factor(size)
-  )
 
-# make separate datasets for machine direction and cross direction
-tappi_clammp_md <- tensile_data_clammp |>
-  filter(direction == "Machine",
-         size == "TAPPI")
-
-small_clammp_md <- tensile_data_clammp |>
-  filter(direction == "Machine",
-         size == "Small")
-
-# save data
-save(tensile_data_clammp, file = here("manuscript/data/tensile_data_clammp.rda"))
-save(tappi_clammp_md, file = here("manuscript/data/tappi_clammp_md.rda"))
-save(small_clammp_md, file = here("manuscript/data/small_clammp_md.rda"))
-
-
-
-
-# clean water absorption data for HelloFresh
-absorption_data_HF <- read_excel("HelloFresh_Absorption.xlsx",
-                            sheet = "Formatting for R") |>
+## Water Absorption - Recycled Paper Substrate --------------------------------------------------------
+# clean water absorption data for Recycled Paper (RF)
+absorption_data_RF <- read_excel("graphene_oxide_data.xlsx",
+                                 sheet = "RF_WA") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # modifying data for cleaner figures
-absorption_HF_fig <- read_excel("HelloFresh_Absorption.xlsx",
-                            sheet = "Figures for R") |>
+absorption_RF_fig <- read_excel("graphene_oxide_data.xlsx",
+                                sheet = "RF_FIG") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # save data
-save(absorption_data_HF, file = here("data/absorption_data_HF.rda"))
-save(absorption_HF_fig, file = here("data/absorption_HF_fig.rda"))
+save(absorption_data_RF, file = here("manuscript/data/absorption_data_RF.rda"))
+save(absorption_RF_fig, file = here("manuscript/data/absorption_RF_fig.rda"))
 
 
-#clean water absorption data for Metsä
-absorption_data_metsa <- read_excel("Metsa_Water_Absorption.xlsx",
-                               sheet = "Formatting for R") |>
-  janitor::clean_names() |>
-  mutate(coating = as.factor(coating),
-         time = as.factor(time))
-
-# modifying data for cleaner figures
-absorption_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
-                                   sheet = "Figures for R") |>
-  janitor::clean_names() |>
-  mutate(coating = as.factor(coating),
-         time = as.factor(time))
-
-# save data
-save(absorption_data_metsa, file = here("data/absorption_data_metsa.rda"))
-save(absorption_metsa_fig, file = here("data/absorption_metsa_fig.rda"))
-
-# clean water contact angle data for Metsä
-wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
-                               sheet = "Formatting for R") |>
+## Tensile Strength - Recycled Paper Substrate and Handsheets -----------------------------------------
+# clean tensile strength data for Recycled Paper (RF) and Handsheets
+tensile_data_clammp <- read_excel("graphene_oxide_data.xlsx",
+                                sheet = "TS_CL") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
 
-save(wca_data_metsa, file = here("data/wca_data_metsa.rda"))
-
-# clean water absorption data for International Paper (IP)
-absorption_data_IP <- read_excel("IP_Absorption.xlsx",
-                             sheet = "Formatting for R") |>
+# create dataset for small Recycled Paper samples
+tensile_data_small <- tensile_data_clammp |>
+  filter(size == "Small") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
 
-# modifying data for cleaner figures
-absorption_IP_fig <- read_excel("IP_Absorption.xlsx",
-                                 sheet = "Figures for R") |>
+# create dataset for larger Recycled Paper samples (TAPPI standard)
+tensile_data_large <- tensile_data_clammp |>
+  filter(size == "TAPPI") |>
   janitor::clean_names() |>
-  mutate(coating = as.factor(coating),
-         time = as.factor(time))
+  mutate(coating = as.factor(coating))
 
-# save data
-save(absorption_data_IP, file = here("data/absorption_data_IP.rda"))
-save(absorption_IP_fig, file = here("data/absorption_IP_fig.rda"))
-
-# clean distance graph data for tensile testing on CLaMMP
-distance_data_clammp <- read_excel("distance_graphs_clammp.xlsx",
-                                   sheet = "Sheet1") |>
+# create dataset for handsheet samples
+tensile_data_handsheet <- tensile_data_clammp |>
+  filter(paper_type == "Greif") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
 
 # save data
-save(distance_data_clammp, file = here("data/distance_data_clammp.rda"))
+save(tensile_data_small, file = here("manuscript/data/tensile_data_small.rda"))
+save(tensile_data_large, file = here("manuscript/data/tensile_data_large.rda"))
+save(tensile_data_handsheet, file = here("manuscript/data/tensile_data_handsheet.rda"))
 
-# import handsheet data
-handsheet_absorption <- read_excel("greif_handsheet_absorption.xlsx",
-                                   sheet = "Formatting for R") |>
+
+## Force Displacement Curves - Recycled Paper Substrate and Handsheets --------------------------------
+# clean force/displacement graph (FDG) data for tensile testing on CLaMMP
+FDG_curves_clammp <- read_excel("graphene_oxide_data.xlsx",
+                                   sheet = "TS_FDG") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
 
 # save data
-save(handsheet_absorption, file = here("data/handsheet_absorption.rda"))
+save(FDG_curves_clammp, file = here("manuscript/data/FDG_curves_clammp.rda"))
 
-# examine tensile and burst index from myself and Jason (WMU)
-tensile_burst_index <- read_excel("tensile_burst_index.xlsx",
-                                   sheet = "Sheet1") |>
+
+## Tensile and Burst Index for Handsheets -------------------------------------------------------------
+# examine tensile and burst index from Jason (WMU)
+tensile_burst_index <- read_excel("graphene_oxide_data.xlsx",
+                                   sheet = "TBI_WMU") |>
   janitor::clean_names() |>
   mutate(condition = as.factor(condition))
 
 # save data
-save(tensile_burst_index, file = here("data/tensile_burst_index.rda"))
+save(tensile_burst_index, file = here("manuscript/data/tensile_burst_index.rda"))
 
 
 
