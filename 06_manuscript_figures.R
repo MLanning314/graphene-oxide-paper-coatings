@@ -202,7 +202,7 @@ fig_4a <- ggplot(fig_4a_summary, aes(x = xpos, y = mean_strength, fill = conditi
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.y = element_line(color = "black"),
         axis.line.x = element_line(color = "black"),
-        plot.tag = element_text(face = "bold", size = 18),
+        plot.tag = element_text(face = "bold", size = 24),
         plot.margin = margin(5.5, 5.5, 5.5, 20)) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
   annotate("text", x = 2, y = 58, label = "ASA", size = 10) +
@@ -271,7 +271,7 @@ fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = conditi
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.y = element_line(color = "black"),
         axis.line.x = element_line(color = "black"),
-        plot.tag = element_text(face = "bold", size = 18),
+        plot.tag = element_text(face = "bold", size = 24),
         plot.margin = margin(5.5, 5.5, 5.5, 20)) +
   geom_vline(xintercept = 4, linewidth = 0.5) +
   annotate("text", x = 2, y = 4.8, label = "ASA", size = 10) +
