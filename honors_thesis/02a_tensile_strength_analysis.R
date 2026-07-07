@@ -1,5 +1,6 @@
 
-# Analysis of Data for Tensile Strength - MxMoon
+# Analysis of Data for Tensile Strength - MxMoon -----------------------------------------------------
+# figure preparation and analysis for recycled paper substrate tensile strength
 
 # Load Packages 
 library(tidyverse)
@@ -7,11 +8,11 @@ library(here)
 library(car)
 
 # Load data
-load(here("data/tensile_strength_md.rda"))
-load(here("data/tensile_strength_cd.rda"))
+load(here("honors_thesis/data/tensile_strength_md.rda"))
+load(here("honors_thesis/data/tensile_strength_cd.rda"))
 
-# figure 3.3.1
-# compute mean and sd per coating
+## Figure 3.3.1 --------------------------------------------------------------------------------------
+### Compute Mean and SD per Coating for Figure Preparation -------------------------------------------
 md_3.3.1 <- tensile_strength_md |>
   group_by(coating) |>
   mutate(coating = dplyr::recode(
@@ -33,7 +34,7 @@ md_3.3.1 <- tensile_strength_md |>
     sd_strength = sd(tensile_strength_n),
     .groups = "drop")
 
-# create figure 3.3.1
+### Create Figure 3.3.1 ----
 fig_3.3.1 <- ggplot(md_3.3.1, aes(x = coating, y = mean_strength, fill = coating)) +
   geom_bar(stat = "identity", width = 0.7) +
   geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
@@ -63,17 +64,20 @@ fig_3.3.1 <- ggplot(md_3.3.1, aes(x = coating, y = mean_strength, fill = coating
       axis.line.y = element_line(color = "black"),
       axis.line.x = element_line(color = "black"))
 
-ggsave("figures/fig_3.3.1.png", plot = fig_3.3.1,
+### Save Figure 3.3.1 ----
+ggsave("honors_thesis/figures/fig_3.3.1.png", plot = fig_3.3.1,
        width = 10, height = 6, units = "in", dpi = 600)
 
+### Analysis for Figure 3.3.1 ------------------------------------------------------------------------
 # machine direction anova
 md_anova <- aov(tensile_strength_n ~ coating, data = tensile_strength_md)
 summary(md_anova)
 
 TukeyHSD(md_anova)
 
-# figure 3.3.3
-# compute mean and sd per coating
+
+## Figure 3.3.3 --------------------------------------------------------------------------------------
+### Compute Mean and SD per Coating for Figure Preparation -------------------------------------------
 cd_3.3.3 <- tensile_strength_cd |>
   filter(coating != "0.15 wt% GO") |>
   group_by(coating) |>
@@ -96,7 +100,7 @@ cd_3.3.3 <- tensile_strength_cd |>
     sd_strength = sd(tensile_strength_n),
     .groups = "drop")
 
-# create figure 3.3.3
+### Create Figure 3.3.3 ----
 fig_3.3.3 <- ggplot(cd_3.3.3, aes(x = coating, y = mean_strength, fill = coating)) +
   geom_bar(stat = "identity", width = 0.7) +
   geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
@@ -121,9 +125,11 @@ fig_3.3.3 <- ggplot(cd_3.3.3, aes(x = coating, y = mean_strength, fill = coating
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank())
 
-ggsave("figures/fig_3.3.3.png", plot = fig_3.3.3,
+### Save Figure 3.3.3 ----
+ggsave("honors_thesis/figures/fig_3.3.3.png", plot = fig_3.3.3,
        width = 10, height = 6, units = "in", dpi = 600)
 
+### Analysis for Figure 3.3.3 ----
 # cross machine direction anova
 cd_anova <- aov(tensile_strength_n ~ coating, data = tensile_strength_cd)
 summary(cd_anova)
