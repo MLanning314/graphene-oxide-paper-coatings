@@ -8,32 +8,6 @@ library(readxl)
 library(here)
 
 # --------------------------------------------------------------------------
-## Tensile Strength - MxMoonfree ----
-# clean tensile strength data - mxmoon
-tensile_data <- read_excel("graphene_oxide_data.xlsx",
-                                      sheet = "RF_TSMX") |>
-  janitor::clean_names() |>
-  mutate(
-    coating = as.factor(coating),
-    direction = as.factor(direction)
-    ) |>
-  select(-type_of_paper,
-         -date_m_d_yy)
-
-# make separate datasets for machine direction and cross direction
-tensile_strength_md <- tensile_data |>
-  filter(direction == "Machine Direction")
-
-tensile_strength_cd <- tensile_data |>
-  filter(direction == "Cross-Machine Direction")
-
-# save data
-save(tensile_data, file = here("honors_thesis/data/tensile_data.rda"))
-save(tensile_strength_md, file = here("honors_thesis/data/tensile_strength_md.rda"))
-save(tensile_strength_cd, file = here("honors_thesis/data/tensile_strength_cd.rda"))
-
---------------------------------------------------------------------------
-
 # clean tensile strength data - clammp
 tensile_data_clammp <- read_excel("tensile_strength_clammp.xlsx",
                            sheet = "Sheet1") |>
@@ -55,9 +29,9 @@ small_clammp_md <- tensile_data_clammp |>
          size == "Small")
 
 # save data
-save(tensile_data_clammp, file = here("data/tensile_data_clammp.rda"))
-save(tappi_clammp_md, file = here("data/tappi_clammp_md.rda"))
-save(small_clammp_md, file = here("data/small_clammp_md.rda"))
+save(tensile_data_clammp, file = here("manuscript/data/tensile_data_clammp.rda"))
+save(tappi_clammp_md, file = here("manuscript/data/tappi_clammp_md.rda"))
+save(small_clammp_md, file = here("manuscript/data/small_clammp_md.rda"))
 
 
 

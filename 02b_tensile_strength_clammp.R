@@ -7,9 +7,9 @@ library(here)
 library(car)
 
 # Load data
-load(here("data/tensile_data_clammp.rda"))
-load(here("data/tappi_clammp_md.rda"))
-load(here("data/small_clammp_md.rda"))
+load(here("manuscript/data/tensile_data_clammp.rda"))
+load(here("manuscript/data/tappi_clammp_md.rda"))
+load(here("manuscript/data/small_clammp_md.rda"))
 
 # statistics
 tappi_md_anova <- aov(strength_n ~ coating, data = tappi_clammp_md)
