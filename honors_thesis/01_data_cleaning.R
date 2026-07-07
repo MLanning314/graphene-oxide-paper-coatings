@@ -28,7 +28,6 @@ tensile_strength_cd <- tensile_data |>
   filter(direction == "Cross-Machine Direction")
 
 # save data
-save(tensile_data, file = here("honors_thesis/data/tensile_data.rda"))
 save(tensile_strength_md, file = here("honors_thesis/data/tensile_strength_md.rda"))
 save(tensile_strength_cd, file = here("honors_thesis/data/tensile_strength_cd.rda"))
 
@@ -49,27 +48,28 @@ absorption_RF_fig <- read_excel("graphene_oxide_data.xlsx",
          time = as.factor(time))
 
 # save data
-save(absorption_data_HF, file = here("honors_thesis/data/absorption_data_HF.rda"))
-save(absorption_HF_fig, file = here("honors_thesis/data/absorption_HF_fig.rda"))
+save(absorption_data_RF, file = here("honors_thesis/data/absorption_data_RF.rda"))
+save(absorption_RF_fig, file = here("honors_thesis/data/absorption_RF_fig.rda"))
 
 
-#clean water absorption data for Metsä
-absorption_data_metsa <- read_excel("Metsa_Water_Absorption.xlsx",
-                               sheet = "Formatting for R") |>
+## Water Absorption - Food-Grade PaperBoard Substrate ------------------------------------------------
+# clean water absorption data for Food-Grade PaperBoard (FGPB)
+absorption_data_FGPB <- read_excel("graphene_oxide_data.xlsx",
+                               sheet = "FGPB_WA") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # modifying data for cleaner figures
-absorption_metsa_fig <- read_excel("Metsa_Water_Absorption.xlsx",
-                                   sheet = "Figures for R") |>
+absorption_FGPB_fig <- read_excel("graphene_oxide_data.xlsx",
+                                   sheet = "FGPB_FIG") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # save data
-save(absorption_data_metsa, file = here("data/absorption_data_metsa.rda"))
-save(absorption_metsa_fig, file = here("data/absorption_metsa_fig.rda"))
+save(absorption_data_FGPB, file = here("honors_thesis/data/absorption_data_FGPB.rda"))
+save(absorption_FGPB_fig, file = here("honors_thesis/data/absorption_FGPB_fig.rda"))
 
 # clean water contact angle data for Metsä
 wca_data_metsa <- read_excel("Metsa_Water_ContactAngle.xlsx",
