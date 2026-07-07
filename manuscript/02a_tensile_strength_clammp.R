@@ -1,5 +1,5 @@
 
-# Analysis of Data for Tensile Strength - CLaMMP
+# Analysis of Data for Tensile Strength - CLaMMP ------------------------------------------------------
 
 # Load Packages 
 library(tidyverse)
@@ -7,11 +7,10 @@ library(here)
 library(car)
 
 # Load data
-load(here("manuscript/data/tensile_data_clammp.rda"))
-load(here("manuscript/data/tappi_clammp_md.rda"))
-load(here("manuscript/data/small_clammp_md.rda"))
+load(here("manuscript/data/tensile_data_small.rda"))
+load(here("manuscript/data/tensile_data_large.rda"))
 
-# statistics
+# Statistics for Tensile Strength ClaMMP
 tappi_md_anova <- aov(strength_n ~ coating, data = tappi_clammp_md)
 summary(tappi_md_anova)
 
