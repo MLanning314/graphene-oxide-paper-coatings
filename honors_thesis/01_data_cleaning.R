@@ -1,5 +1,5 @@
 
-# Data Cleaning ----
+# Data Cleaning -------------------------------------------------------------------------------------
 # cleaning raw Excel file and making data suitable for analysis
 
 # Load Packages
@@ -7,8 +7,8 @@ library(tidyverse)
 library(readxl)
 library(here)
 
-# --------------------------------------------------------------------------
-## Tensile Strength - MxMoonfree ----
+
+## Tensile Strength - MxMoonfree ---------------------------------------------------------------------
 # clean tensile strength data - mxmoon
 tensile_data <- read_excel("graphene_oxide_data.xlsx",
                                       sheet = "RF_TSMX") |>
@@ -32,53 +32,25 @@ save(tensile_data, file = here("honors_thesis/data/tensile_data.rda"))
 save(tensile_strength_md, file = here("honors_thesis/data/tensile_strength_md.rda"))
 save(tensile_strength_cd, file = here("honors_thesis/data/tensile_strength_cd.rda"))
 
---------------------------------------------------------------------------
 
-# clean tensile strength data - clammp
-tensile_data_clammp <- read_excel("tensile_strength_clammp.xlsx",
-                           sheet = "Sheet1") |>
-  janitor::clean_names() |>
-  mutate(
-    coating = as.factor(coating),
-    paper_type = as.factor(paper_type),
-    direction = as.factor(direction),
-    size = as.factor(size)
-  )
-
-# make separate datasets for machine direction and cross direction
-tappi_clammp_md <- tensile_data_clammp |>
-  filter(direction == "Machine",
-         size == "TAPPI")
-
-small_clammp_md <- tensile_data_clammp |>
-  filter(direction == "Machine",
-         size == "Small")
-
-# save data
-save(tensile_data_clammp, file = here("data/tensile_data_clammp.rda"))
-save(tappi_clammp_md, file = here("data/tappi_clammp_md.rda"))
-save(small_clammp_md, file = here("data/small_clammp_md.rda"))
-
-
-
-
-# clean water absorption data for HelloFresh
-absorption_data_HF <- read_excel("HelloFresh_Absorption.xlsx",
-                            sheet = "Formatting for R") |>
+## Water Absorption - Recycled Paper Substrate -------------------------------------------------------
+# clean water absorption data for Recycled Paper (RF)
+absorption_data_RF <- read_excel("graphene_oxide_data.xlsx",
+                            sheet = "RF_WA") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # modifying data for cleaner figures
-absorption_HF_fig <- read_excel("HelloFresh_Absorption.xlsx",
-                            sheet = "Figures for R") |>
+absorption_RF_fig <- read_excel("graphene_oxide_data.xlsx",
+                            sheet = "RF_FIG") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
 # save data
-save(absorption_data_HF, file = here("data/absorption_data_HF.rda"))
-save(absorption_HF_fig, file = here("data/absorption_HF_fig.rda"))
+save(absorption_data_HF, file = here("honors_thesis/data/absorption_data_HF.rda"))
+save(absorption_HF_fig, file = here("honors_thesis/data/absorption_HF_fig.rda"))
 
 
 #clean water absorption data for Metsä
