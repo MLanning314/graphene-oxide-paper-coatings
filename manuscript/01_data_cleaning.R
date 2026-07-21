@@ -10,7 +10,7 @@ library(here)
 
 ## Water Absorption - Recycled Paper Substrate --------------------------------------------------------
 # clean water absorption data for Recycled Paper (RF)
-absorption_data_RF <- read_excel("graphene_oxide_data.xlsx",
+absorption_data_RF <- read_excel("data/graphene_oxide_data.xlsx",
                                  sheet = "RF_WA") |>
   janitor::clean_names() |>
   rename(absorption = absorption_gm_cm_2,
@@ -19,7 +19,7 @@ absorption_data_RF <- read_excel("graphene_oxide_data.xlsx",
          time = as.factor(time))
 
 # modifying data for cleaner figures
-absorption_RF_fig <- read_excel("graphene_oxide_data.xlsx",
+absorption_RF_fig <- read_excel("data/graphene_oxide_data.xlsx",
                                 sheet = "RF_FIG") |>
   janitor::clean_names() |>
   rename(absorption = absorption_gm_gm,
@@ -34,7 +34,7 @@ save(absorption_RF_fig, file = here("manuscript/data/absorption_RF_fig.rda"))
 
 ## Tensile Strength - Recycled Paper Substrate and Handsheets -----------------------------------------
 # clean tensile strength data for Recycled Paper (RF) and Handsheets
-tensile_data_clammp <- read_excel("graphene_oxide_data.xlsx",
+tensile_data_clammp <- read_excel("data/graphene_oxide_data.xlsx",
                                 sheet = "TS_CL") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
@@ -65,7 +65,7 @@ save(tensile_data_handsheet, file = here("manuscript/data/tensile_data_handsheet
 
 ## Force Displacement Curves - Recycled Paper Substrate and Handsheets --------------------------------
 # clean force/displacement graph (FDG) data for tensile testing on CLaMMP
-FDG_curves_clammp <- read_excel("graphene_oxide_data.xlsx",
+FDG_curves_clammp <- read_excel("data/graphene_oxide_data.xlsx",
                                    sheet = "TS_FDG") |>
   janitor::clean_names() |>
   mutate(coating = as.factor(coating))
@@ -76,7 +76,7 @@ save(FDG_curves_clammp, file = here("manuscript/data/FDG_curves_clammp.rda"))
 
 ## Tensile and Burst Index for Handsheets -------------------------------------------------------------
 # examine tensile and burst index from Jason (WMU)
-tensile_burst_index <- read_excel("graphene_oxide_data.xlsx",
+tensile_burst_index <- read_excel("data/graphene_oxide_data.xlsx",
                                    sheet = "TBI_WMU") |>
   janitor::clean_names() |>
   mutate(condition = as.factor(condition))
