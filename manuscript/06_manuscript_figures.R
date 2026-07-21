@@ -8,15 +8,15 @@ library(car)
 library(patchwork)
 
 ## Load data ----
-load(here("data/tensile_burst_index.rda"))
-load(here("data/absorption_data_HF.rda"))
-load(here("data/absorption_HF_fig.rda"))
+load(here("manuscript/data/tensile_burst_index.rda"))
+load(here("manuscript/data/absorption_data_RF.rda"))
+load(here("manuscript/data/absorption_RF_fig.rda"))
 
 # --------------------------------------------------------------------------
 
 ## Figure 1 ----
 # cleaning data for figure 1
-fig_1_summary <- absorption_HF_fig |>
+fig_1_summary <- absorption_RF_fig |>
   filter(coating %in% c("DI Water", "Stock", "0.1% GO", "0.2% GO", 
                         "0.5% GO", "15% WBBC")) |>
   mutate(
@@ -62,7 +62,7 @@ fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
     color = NULL,
     shape = NULL
   ) +
-  theme_classic(base_size = 12) +
+  theme_classic(base_size = 15) +
   theme(
     axis.title.x = element_text(size = 16, face = "plain"),
     axis.title.y = element_text(size = 16, face = "plain"),
