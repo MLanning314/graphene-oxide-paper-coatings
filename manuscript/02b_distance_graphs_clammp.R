@@ -1,15 +1,15 @@
 
-# Analysis of Distance for Tensile Strength - CLaMMP
+# Analysis of Distance for Tensile Strength - CLaMMP ----
 
-# Load Packages 
+## Load Packages ----
 library(tidyverse)
 library(here)
 library(car)
 
-# Load data
+## Load data ----
 load(here("manuscript/data/FDG_curves_clammp.rda"))
 
-# convert displacement/time to stress/strain
+## Convert Displacement/Time to Stress/Strain ----
 speed <- 0.33 # mm/sec
 width <- 25 # mm
 gauge_length <- 150 # mm
@@ -21,7 +21,7 @@ FDG_curves_clammp <- FDG_curves_clammp |>
     stress = tensile_strength / area,
     strain = displacement / gauge_length)
 
-# define fitting regions
+## Define Fitting Regions ----
 region_results <- FDG_curves_clammp |>
   group_by(sample, coating, size) |>
   group_modify(~{
@@ -86,8 +86,8 @@ region_results <- FDG_curves_clammp |>
   
   ungroup()
 
-
-# average slope and r2 by coating 
+## Analysis of Stress/Strain Graphs ----
+### Average Slope and R2 by Coating ----
 region_summary <- region_results |>
   group_by(sample, region, coating, size) |>
   summarise(
@@ -99,8 +99,7 @@ region_summary <- region_results |>
   )
 
 
-# anova and statistics
-
+### Anova and Statistics ----
 anova_results <- region_results |>
   group_by(region, size) |>
   group_modify(~{
