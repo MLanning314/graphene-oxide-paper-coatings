@@ -126,8 +126,7 @@ fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean)) +
 ggsave("manuscript/figures/fig_2.png", plot = fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
 
-
-
+# --------------------------------------------------------------------------
 
 ## Figure 3 ----
 
@@ -282,28 +281,28 @@ ggsave("manuscript/figures/fig_3.png", plot = fig_3,
        width = 14, height = 14, units = "in", dpi = 600)
 
 
-
+# --------------------------------------------------------------------------
 
 
 # SI FIGURES
-fig_3_summary <- absorption_HF_fig |>
+fig_SI_1_summary <- absorption_RF_fig |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
   mutate(
     time = (as.numeric(time) - 1) * 10,
     coating = dplyr::recode(coating,
-                            `25% WBBC + 0.1% GO` = "9.75 wt% SA + 0.1 wt% GO",
-                            `25% WBBC` = "9.75 wt% SA",
-                            `0.1% GO` = "0.1 wt% GO"),
+                            `25% WBBC + 0.1% GO` = "9.75 wt % SA + 0.1 wt % GO",
+                            `25% WBBC` = "9.75 wt % SA",
+                            `0.1% GO` = "0.1 wt % GO"),
     coating = factor(coating,
                      levels = c("Stock",
-                                "0.1 wt% GO",
-                                "9.75 wt% SA",
-                                "9.75 wt% SA + 0.1 wt% GO")))
+                                "0.1 wt % GO",
+                                "9.75 wt % SA",
+                                "9.75 wt % SA + 0.1 wt % GO")))
 
 
 # plotting data for figure 2
-fig_3 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
+fig_SI_1 <- ggplot(fig_SI_1_summary, aes(x = time, y = absorption,
                                    color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
@@ -312,15 +311,15 @@ fig_3 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
                 width = 1, linewidth = 0.5) +
   scale_color_manual(
     values = c("Stock" = "grey65",
-               "0.1 wt% GO" = "firebrick",
-               "9.75 wt% SA" = "dodgerblue",
-               "9.75 wt% SA + 0.1 wt% GO" = "springgreen1"
+               "0.1 wt % GO" = "firebrick",
+               "9.75 wt % SA" = "dodgerblue",
+               "9.75 wt % SA + 0.1 wt % GO" = "springgreen1"
     )) +
   scale_shape_manual(
     values = c( "Stock" = 16,
-                "0.1 wt% GO" = 15,
-                "9.75 wt% SA" = 18,
-                "9.75 wt% SA + 0.1 wt% GO" = 17)
+                "0.1 wt % GO" = 15,
+                "9.75 wt % SA" = 18,
+                "9.75 wt % SA + 0.1 wt % GO" = 17)
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
   coord_cartesian(xlim = c(0, 60)) +
@@ -330,7 +329,7 @@ fig_3 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
     color = NULL,
     shape = NULL
   ) +
-  theme_classic(base_size = 12) +
+  theme_classic(base_size = 15) +
   theme(
     axis.title.x = element_text(size = 16, face = "plain"),
     axis.title.y = element_text(size = 16, face = "plain"),
@@ -340,7 +339,7 @@ fig_3 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
   )
 
 # saving figure 2
-ggsave("figures/fig_2.png", plot = fig_2,
+ggsave("manuscript/figures/fig_SI_1.png", plot = fig_SI_1,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # --------------------------------------------------------------------------
