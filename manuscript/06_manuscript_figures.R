@@ -129,8 +129,163 @@ ggsave("manuscript/figures/fig_2.png", plot = fig_2,
 
 
 
-# Figure 3 ----
-# cleaning data for figure 3
+## Figure 3 ----
+
+### Figure 3a: Tensile Index ----
+# compute mean and sd per coating and summarise
+fig_3a_summary <- tensile_burst_index |>
+  filter(!is.na(tensile_index),
+         !is.na(burst_index)) |>
+  group_by(condition) |>
+  mutate(condition = dplyr::recode(
+    condition,
+    `H1` = "AKD + 0 wt % GO",
+    `H2` = "AKD + 0.1 wt % GO",
+    `H3` = "AKD + 0.2 wt % GO",
+    `H4` = "ASA + 0 wt % GO",
+    `H5` = "ASA + 0.1 wt % GO",
+    `H6` = "ASA + 0.2 wt % GO"
+  ),
+  condition = factor(condition, 
+                   levels = c("ASA + 0 wt % GO", "ASA + 0.1 wt % GO", 
+                              "ASA + 0.2 wt % GO", "AKD + 0 wt % GO",
+                              "AKD + 0.1 wt % GO", "AKD + 0.2 wt % GO"
+                              ))) |>
+  summarise(
+    mean_strength = mean(tensile_index),
+    sd_strength = sd(tensile_index),
+    .groups = "drop") |>
+  mutate(xpos = c(1, 2, 3, 5, 6, 7))
+
+# plotting data for figure 4a
+fig_3a <- ggplot(fig_3a_summary, aes(x = xpos, y = mean_strength, fill = condition)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
+                width = 0.2, size = 0.5) +
+  scale_fill_manual(values = c(
+    "ASA + 0 wt % GO" = "goldenrod1",
+    "AKD + 0 wt % GO" = "goldenrod1",
+    "ASA + 0.1 wt % GO" = "firebrick",
+    "AKD + 0.1 wt % GO" = "firebrick",
+    "ASA + 0.2 wt % GO" = "seagreen2",
+    "AKD + 0.2 wt % GO" = "seagreen2"
+  )) +
+  scale_x_continuous(
+    breaks = c(1, 2, 3, 5, 6, 7),
+    labels = c(
+      "0 wt % GO",
+      "0.1 wt % GO",
+      "0.2 wt % GO",
+      "0 wt % GO",
+      "0.1 wt % GO",
+      "0.2 wt % GO"
+    )
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 60),
+                     breaks = seq(0, 60, by = 15)) +
+  labs(x = "", y = "Tensile Index (N.m/g)") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 15),
+        axis.title.y = element_text(size = 16),
+        legend.position = "none",
+        panel.grid.major = element_blank(),   
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_blank(),
+        axis.ticks.length = unit(0.2, "cm"),
+        axis.line.y = element_line(color = "black"),
+        axis.line.x = element_line(color = "black"),
+        plot.tag = element_text(face = "bold", size = 24),
+        plot.margin = margin(5.5, 5.5, 5.5, 20)) +
+  geom_vline(xintercept = 4, linewidth = 0.5) +
+  annotate("text", x = 2, y = 58, label = "ASA", size = 10) +
+  annotate("text", x = 6, y = 58, label = "AKD", size = 10)
+
+### Figure 3b: Burst Index ----
+# compute mean and sd per coating and summarise
+fig_3b_summary <- tensile_burst_index |>
+  filter(!is.na(tensile_index),
+         !is.na(burst_index)) |>
+  group_by(condition) |>
+  mutate(condition = dplyr::recode(
+    condition,
+    `H1` = "AKD + 0 wt % GO",
+    `H2` = "AKD + 0.1 wt % GO",
+    `H3` = "AKD + 0.2 wt % GO",
+    `H4` = "ASA + 0 wt % GO",
+    `H5` = "ASA + 0.1 wt % GO",
+    `H6` = "ASA + 0.2 wt % GO"
+  ),
+  condition = factor(condition, 
+                     levels = c("ASA + 0 wt % GO", "ASA + 0.1 wt % GO", 
+                                "ASA + 0.2 wt % GO", "AKD + 0 wt % GO",
+                                "AKD + 0.1 wt % GO", "AKD + 0.2 wt % GO"
+                     ))) |>
+  summarise(
+    mean_strength = mean(burst_index),
+    sd_strength = sd(burst_index),
+    .groups = "drop") |>
+  mutate(xpos = c(1, 2, 3, 5, 6, 7))
+
+# plotting data for figure 3b
+fig_3b <- ggplot(fig_3b_summary, aes(x = xpos, y = mean_strength, fill = condition)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
+                width = 0.2, size = 0.5) +
+  scale_fill_manual(values = c(
+    "ASA + 0 wt % GO" = "goldenrod1",
+    "AKD + 0 wt % GO" = "goldenrod1",
+    "ASA + 0.1 wt % GO" = "firebrick",
+    "AKD + 0.1 wt % GO" = "firebrick",
+    "ASA + 0.2 wt % GO" = "seagreen2",
+    "AKD + 0.2 wt % GO" = "seagreen2"
+  )) +
+  scale_x_continuous(
+    breaks = c(1, 2, 3, 5, 6, 7),
+    labels = c(
+      "0 wt % GO",
+      "0.1 wt % GO",
+      "0.2 wt % GO",
+      "0 wt % GO",
+      "0.1 wt % GO",
+      "0.2 wt % GO"
+    )
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 5),
+                     breaks = seq(0, 5, by = 1)) +
+  labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 14,
+                                   angle = 45, hjust = 1, color = "black"),
+        axis.text.y = element_text(size = 15),
+        axis.title.y = element_text(size = 16),
+        legend.position = "none",
+        panel.grid.major = element_blank(),   
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(color = "black"),
+        axis.ticks.length = unit(0.2, "cm"),
+        axis.line.y = element_line(color = "black"),
+        axis.line.x = element_line(color = "black"),
+        plot.tag = element_text(face = "bold", size = 24),
+        plot.margin = margin(5.5, 5.5, 5.5, 20)) +
+  geom_vline(xintercept = 4, linewidth = 0.5) +
+  annotate("text", x = 2, y = 4.8, label = "ASA", size = 10) +
+  annotate("text", x = 6, y = 4.8, label = "AKD", size = 10)
+
+### Combination ----
+# use patchwork to combine the plots together for figure 4 
+fig_3 <- (fig_3a / fig_3b) +
+  plot_annotation(tag_levels = "A")
+
+# save figure 4
+ggsave("figures/fig_3.png", plot = fig_3,
+       width = 14, height = 14, units = "in", dpi = 600)
+
+
+
+
+
+# SI FIGURES
 fig_3_summary <- absorption_HF_fig |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
@@ -149,7 +304,7 @@ fig_3_summary <- absorption_HF_fig |>
 
 # plotting data for figure 2
 fig_3 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
-                                  color = coating, shape = coating)) +
+                                   color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = absorption - rms,
@@ -189,153 +344,5 @@ ggsave("figures/fig_2.png", plot = fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # --------------------------------------------------------------------------
-
-## Figure 4 ----
-
-### Figure 4a: Tensile Index ----
-# compute mean and sd per coating and summarise
-fig_4a_summary <- tensile_burst_index |>
-  filter(!is.na(tensile_index_j),
-         !is.na(burst_index_j)) |>
-  group_by(condition) |>
-  mutate(condition = dplyr::recode(
-    condition,
-    `H1` = "AKD + 0 wt% GO",
-    `H2` = "AKD + 0.1 wt% GO",
-    `H3` = "AKD + 0.2 wt% GO",
-    `H4` = "ASA + 0 wt% GO",
-    `H5` = "ASA + 0.1 wt% GO",
-    `H6` = "ASA + 0.2 wt% GO"
-  ),
-  condition = factor(condition, 
-                   levels = c("ASA + 0 wt% GO", "ASA + 0.1 wt% GO", 
-                              "ASA + 0.2 wt% GO", "AKD + 0 wt% GO",
-                              "AKD + 0.1 wt% GO", "AKD + 0.2 wt% GO"
-                              ))) |>
-  summarise(
-    mean_strength = mean(tensile_index_j),
-    sd_strength = sd(tensile_index_j),
-    .groups = "drop") |>
-  mutate(xpos = c(1, 2, 3, 5, 6, 7))
-
-# plotting data for figure 4a
-fig_4a <- ggplot(fig_4a_summary, aes(x = xpos, y = mean_strength, fill = condition)) +
-  geom_bar(stat = "identity", width = 0.7) +
-  geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
-                width = 0.2, size = 0.5) +
-  scale_fill_manual(values = c(
-    "ASA + 0 wt% GO" = "goldenrod1",
-    "AKD + 0 wt% GO" = "goldenrod1",
-    "ASA + 0.1 wt% GO" = "firebrick",
-    "AKD + 0.1 wt% GO" = "firebrick",
-    "ASA + 0.2 wt% GO" = "seagreen2",
-    "AKD + 0.2 wt% GO" = "seagreen2"
-  )) +
-  scale_x_continuous(
-    breaks = c(1, 2, 3, 5, 6, 7),
-    labels = c(
-      "0 wt% GO",
-      "0.1 wt% GO",
-      "0.2 wt% GO",
-      "0 wt% GO",
-      "0.1 wt% GO",
-      "0.2 wt% GO"
-    )
-  ) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 60),
-                     breaks = seq(0, 60, by = 15)) +
-  labs(x = "", y = "Tensile Index (N.m/g)") +
-  theme_minimal() +
-  theme(axis.text.x = element_blank(),
-        legend.position = "none",
-        panel.grid.major = element_blank(),   
-        panel.grid.minor = element_blank(),
-        axis.ticks = element_blank(),
-        axis.ticks.length = unit(0.2, "cm"),
-        axis.line.y = element_line(color = "black"),
-        axis.line.x = element_line(color = "black"),
-        plot.tag = element_text(face = "bold", size = 24),
-        plot.margin = margin(5.5, 5.5, 5.5, 20)) +
-  geom_vline(xintercept = 4, linewidth = 0.5) +
-  annotate("text", x = 2, y = 58, label = "ASA", size = 10) +
-  annotate("text", x = 6, y = 58, label = "AKD", size = 10)
-
-### Figure 4b: Burst Index ----
-# compute mean and sd per coating and summarise
-fig_4b_summary <- tensile_burst_index |>
-  filter(!is.na(tensile_index_j),
-         !is.na(burst_index_j)) |>
-  group_by(condition) |>
-  mutate(condition = dplyr::recode(
-    condition,
-    `H1` = "AKD + 0 wt% GO",
-    `H2` = "AKD + 0.1 wt% GO",
-    `H3` = "AKD + 0.2 wt% GO",
-    `H4` = "ASA + 0 wt% GO",
-    `H5` = "ASA + 0.1 wt% GO",
-    `H6` = "ASA + 0.2 wt% GO"
-  ),
-  condition = factor(condition, 
-                     levels = c("ASA + 0 wt% GO", "ASA + 0.1 wt% GO", 
-                                "ASA + 0.2 wt% GO", "AKD + 0 wt% GO",
-                                "AKD + 0.1 wt% GO", "AKD + 0.2 wt% GO"
-                     ))) |>
-  summarise(
-    mean_strength = mean(burst_index_j),
-    sd_strength = sd(burst_index_j),
-    .groups = "drop") |>
-  mutate(xpos = c(1, 2, 3, 5, 6, 7))
-
-# plotting data for figure 4b
-fig_4b <- ggplot(fig_4b_summary, aes(x = xpos, y = mean_strength, fill = condition)) +
-  geom_bar(stat = "identity", width = 0.7) +
-  geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
-                width = 0.2, size = 0.5) +
-  scale_fill_manual(values = c(
-    "ASA + 0 wt% GO" = "goldenrod1",
-    "AKD + 0 wt% GO" = "goldenrod1",
-    "ASA + 0.1 wt% GO" = "firebrick",
-    "AKD + 0.1 wt% GO" = "firebrick",
-    "ASA + 0.2 wt% GO" = "seagreen2",
-    "AKD + 0.2 wt% GO" = "seagreen2"
-  )) +
-  scale_x_continuous(
-    breaks = c(1, 2, 3, 5, 6, 7),
-    labels = c(
-      "0 wt% GO",
-      "0.1 wt% GO",
-      "0.2 wt% GO",
-      "0 wt% GO",
-      "0.1 wt% GO",
-      "0.2 wt% GO"
-    )
-  ) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 5),
-                     breaks = seq(0, 5, by = 1)) +
-  labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(size = 14, face = "bold",
-                                   angle = 45, hjust = 1, color = "black"),
-        legend.position = "none",
-        panel.grid.major = element_blank(),   
-        panel.grid.minor = element_blank(),
-        axis.ticks = element_line(color = "black"),
-        axis.ticks.length = unit(0.2, "cm"),
-        axis.line.y = element_line(color = "black"),
-        axis.line.x = element_line(color = "black"),
-        plot.tag = element_text(face = "bold", size = 24),
-        plot.margin = margin(5.5, 5.5, 5.5, 20)) +
-  geom_vline(xintercept = 4, linewidth = 0.5) +
-  annotate("text", x = 2, y = 4.8, label = "ASA", size = 10) +
-  annotate("text", x = 6, y = 4.8, label = "AKD", size = 10)
-
-### Combination ----
-# use patchwork to combine the plots together for figure 4 
-fig_4 <- (fig_4a / fig_4b) +
-  plot_annotation(tag_levels = "A")
-
-# save figure 4
-ggsave("figures/fig_4.png", plot = fig_4,
-       width = 14, height = 14, units = "in", dpi = 600)
 
 
