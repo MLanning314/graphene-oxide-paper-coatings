@@ -72,7 +72,7 @@ fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
   )
 
 # saving figure 1
-ggsave("figures/fig_1.png", plot = fig_1,
+ggsave("manuscript/figures/fig_1.png", plot = fig_1,
        width = 10, height = 6, units = "in", dpi = 600)
 
 # --------------------------------------------------------------------------
