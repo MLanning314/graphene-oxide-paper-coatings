@@ -9,6 +9,6 @@ The main repository houses all of the subdirectories and r-scripts that were use
 - `honors_thesis`: contains the analysis and figures used in the Honors Thesis "Graphene Oxide as an Environmentally Friendly Alternative to PFAS and Plastic Modifiers in Paper Packaging" 
 - `manuscript`: contains the analysis and figures used in the ACS manuscript "Ultrathin Graphene Oxide Coatings as Surface Modifiers of Cellulosic Paper: Decoupling Performance Improvement from Mass Addition in Porous Fiber Networks"
 
-For any questions/concerns about the code or the project please contact Mackenzie Lanning (mackenziejlanning@gmail.com) or SonBinh Nguyen (stn@northwestern.edu)
+For any questions/concerns about the code or the project please contact **Mackenzie Lanning** (mackenziejlanning@gmail.com) or **SonBinh Nguyen** (stn@northwestern.edu)
 
 This repository is maintained by Mackenzie Lanning
