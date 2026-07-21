@@ -23,12 +23,12 @@ fig_1_summary <- absorption_RF_fig |>
     time = (as.numeric(time) - 1) * 10,
     coating = factor(
       dplyr::recode(coating, 
-                    `0.1% GO` = "0.1 wt% GO",
-                    `0.2% GO` = "0.2 wt% GO",
-                    `0.5% GO` = "0.5 wt% GO",
-                    `15% WBBC` = "5.85 wt% SA"),
-      levels = c("DI Water", "Stock", "0.1 wt% GO",
-                 "0.2 wt% GO", "0.5 wt% GO", "5.85 wt% SA")))
+                    `0.1% GO` = "0.1 wt % GO",
+                    `0.2% GO` = "0.2 wt % GO",
+                    `0.5% GO` = "0.5 wt % GO",
+                    `15% WBBC` = "5.85 wt % SA"),
+      levels = c("DI Water", "Stock", "0.1 wt % GO",
+                 "0.2 wt % GO", "0.5 wt % GO", "5.85 wt % SA")))
 
 # plotting data for figure 1
 fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
@@ -41,18 +41,18 @@ fig_1 <- ggplot(fig_1_summary, aes(x = time, y = absorption,
   scale_color_manual(
     values = c("DI Water" = "dodgerblue",
                "Stock" = "grey65",
-               "0.1 wt% GO" = "firebrick",
-               "0.2 wt% GO" = "goldenrod1",
-               "0.5 wt% GO" = "springgreen1",
-               "5.85 wt% SA" = "purple")
+               "0.1 wt % GO" = "firebrick",
+               "0.2 wt % GO" = "goldenrod1",
+               "0.5 wt % GO" = "springgreen1",
+               "5.85 wt % SA" = "purple")
   ) +
   scale_shape_manual(
     values = c("DI Water" = 16,
                "Stock" = 15,
-               "0.1 wt% GO" = 8,
-               "0.2 wt% GO" = 18,
-               "0.5 wt% GO" = 17,
-               "5.85 wt% SA" = 4)      
+               "0.1 wt % GO" = 8,
+               "0.2 wt % GO" = 18,
+               "0.5 wt % GO" = 17,
+               "5.85 wt % SA" = 4)      
   ) +
   scale_x_continuous(breaks = seq(10, 60, 10)) +
   coord_cartesian(xlim = c(0, 60)) +
