@@ -10,11 +10,15 @@ library(car)
 load(here("manuscript/data/tensile_data_small.rda"))
 load(here("manuscript/data/tensile_data_large.rda"))
 
-# Statistics for Tensile Strength ClaMMP
-tappi_md_anova <- aov(strength_n ~ coating, data = tappi_clammp_md)
-summary(tappi_md_anova)
+# Filter out Cross-Machine Direction and Machine Direction
+large_anova_cd <- tensile_data_large |>
+  filter(direction == "Cross-Machine")
 
-TukeyHSD(tappi_md_anova)
+# Statistics for Tensile Strength ClaMMP
+large_anova <- aov(strength_n ~ coating, data = large_anova_cd)
+summary(large_anova)
+
+TukeyHSD(large_anova)
 leveneTest(strength_n ~ coating, data = tappi_clammp_md)
 
 small_md_anova <- aov(strength_n ~ coating, data = small_clammp_md)

@@ -7,14 +7,14 @@ library(here)
 library(car)
 
 # Load data
-load(here("data/distance_data_clammp.rda"))
+load(here("manuscript/data/FDG_curves_clammp.rda"))
 
 # convert displacement/time to stress/strain
 speed <- 0.33 # mm/sec
 width <- 25 # mm
 gauge_length <- 150 # mm
 
-distance_data_clammp <- distance_data_clammp |>
+FDG_curves_clammp <- FDG_curves_clammp |>
   mutate(
     displacement = time * speed,
     area = width * thickness,
@@ -22,7 +22,7 @@ distance_data_clammp <- distance_data_clammp |>
     strain = displacement / gauge_length)
 
 # define fitting regions
-region_results <- distance_data_clammp |>
+region_results <- FDG_curves_clammp |>
   group_by(sample, coating, size) |>
   group_modify(~{
     

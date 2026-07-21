@@ -13,6 +13,8 @@ library(here)
 absorption_data_RF <- read_excel("graphene_oxide_data.xlsx",
                                  sheet = "RF_WA") |>
   janitor::clean_names() |>
+  rename(absorption = absorption_gm_cm_2,
+         raw_weight = raw_weight_g) |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
@@ -20,6 +22,8 @@ absorption_data_RF <- read_excel("graphene_oxide_data.xlsx",
 absorption_RF_fig <- read_excel("graphene_oxide_data.xlsx",
                                 sheet = "RF_FIG") |>
   janitor::clean_names() |>
+  rename(absorption = absorption_gm_gm,
+         rms = rms_gm_gm) |>
   mutate(coating = as.factor(coating),
          time = as.factor(time))
 
