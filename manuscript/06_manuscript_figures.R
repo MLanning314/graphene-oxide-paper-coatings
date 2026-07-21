@@ -79,7 +79,59 @@ ggsave("manuscript/figures/fig_1.png", plot = fig_1,
 
 ## Figure 2 ----
 # cleaning data for figure 2
-fig_2_summary <- absorption_HF_fig |>
+fig_2_summary <- tensile_data_clammp |>
+  filter(size == "TAPPI",
+         direction == "Machine") |>
+  mutate(
+    coating = factor(
+      dplyr::recode(coating, 
+                    `0.15 wt% GO` = "0.15 wt % GO",
+                    `0.2 wt% GO` = "0.2 wt % GO",
+                    `0.5 wt% GO` = "0.5 wt % GO",
+                    `5% WBBC` = "1.95 wt % SA",
+                    `15% WBBC` = "5.85 wt % SA",
+                    `25% WBBC` = "9.75 wt % SA",
+                    `5% WBBC + 0.1% GO` = "1.95 wt % SA + 0.1 wt % GO",
+                    `25% WBBC + 0.1% GO` = "9.75 wt % SA + 0.1 wt % GO"),
+      levels = c("DI Water", "Stock", "0.15 wt % GO",
+                 "0.2 wt % GO", "0.5 wt % GO", "1.95 wt % SA", "5.85 wt % SA",
+                 "9.75 wt % SA", "1.95 wt % SA + 0.1 wt % GO", "9.75 wt % SA + 0.1 wt % GO"))) |>
+  group_by(coating) |>
+  summarise(
+    mean = mean(strength_n, na.rm = TRUE),      
+    sd = sd(strength_n, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+
+# plotting data for figure 2
+fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean)) +
+  geom_col(fill = "#56B4E9",width = 0.7) +
+  geom_errorbar(
+    aes(ymin = mean - sd,
+        ymax = mean + sd),
+    width = 0.2,
+    linewidth = 0.7
+  ) +
+  labs(
+    x = "",
+    y = "Tensile Strength (N)") +
+  theme_classic(base_size = 15) +
+  theme(
+    legend.position = "none",
+    axis.title.y = element_text(size = 16, face = "plain"),
+    axis.text.x = element_text(angle = 45, hjust = 1, color = "black")
+  )
+
+ggsave("manuscript/figures/fig_2.png", plot = fig_2,
+       width = 10, height = 6, units = "in", dpi = 600)
+
+
+
+
+# Figure 3 ----
+# cleaning data for figure 3
+fig_3_summary <- absorption_HF_fig |>
   filter(coating %in% c("Stock", "25% WBBC", "25% WBBC + 0.1% GO", 
                         "0.1% GO")) |>
   mutate(
@@ -96,7 +148,7 @@ fig_2_summary <- absorption_HF_fig |>
 
 
 # plotting data for figure 2
-fig_2 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
+fig_3 <- ggplot(fig_2_summary, aes(x = time, y = absorption,
                                   color = coating, shape = coating)) +
   geom_line(linewidth = 1) +
   geom_point(size = 4) +
