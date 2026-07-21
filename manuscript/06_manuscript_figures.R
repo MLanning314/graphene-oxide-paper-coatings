@@ -278,7 +278,7 @@ fig_3 <- (fig_3a / fig_3b) +
   plot_annotation(tag_levels = "A")
 
 # save figure 4
-ggsave("figures/fig_3.png", plot = fig_3,
+ggsave("manuscript/figures/fig_3.png", plot = fig_3,
        width = 14, height = 14, units = "in", dpi = 600)
 
 
