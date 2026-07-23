@@ -195,7 +195,7 @@ fig_3a <- ggplot(fig_3a_summary, aes(x = xpos, y = mean_strength, fill = conditi
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 60),
                      breaks = seq(0, 60, by = 15)) +
   labs(x = "", y = "Tensile Index (N.m/g)") +
-  theme_minimal() +
+  theme_minimal(base_size = 20) +
   theme(axis.text.x = element_blank(),
         axis.text.y = element_text(size = 15),
         axis.title.y = element_text(size = 16),
@@ -265,7 +265,7 @@ fig_3b <- ggplot(fig_3b_summary, aes(x = xpos, y = mean_strength, fill = conditi
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 5),
                      breaks = seq(0, 5, by = 1)) +
   labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
-  theme_minimal() +
+  theme_minimal(base_size = 20) +
   theme(axis.text.x = element_text(size = 14,
                                    angle = 45, hjust = 1, color = "black"),
         axis.text.y = element_text(size = 15),
@@ -290,7 +290,7 @@ fig_3 <- (fig_3a / fig_3b) +
 
 # save figure 4
 ggsave("manuscript/figures/fig_3.png", plot = fig_3,
-       width = 14, height = 14, units = "in", dpi = 600)
+       width = 10, height = 14, units = "in", dpi = 600)
 
 
 # --------------------------------------------------------------------------
