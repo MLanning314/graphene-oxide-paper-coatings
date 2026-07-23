@@ -320,7 +320,7 @@ fig_3 <- (fig_3a / fig_3b) +
 
 # save figure 4
 ggsave("manuscript/figures/fig_3.png", plot = fig_3,
-       width = 10, height = 14, units = "in", dpi = 600)
+       width = 14, height = 14, units = "in", dpi = 600)
 
 
 # --------------------------------------------------------------------------
