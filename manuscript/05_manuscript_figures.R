@@ -105,14 +105,26 @@ fig_2_summary <- tensile_data_clammp |>
   )
 
 # plotting data for figure 2
-fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean)) +
-  geom_col(fill = "#56B4E9",width = 0.7) +
+fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean, fill = coating)) +
+  geom_col(width = 0.7) +
   geom_errorbar(
     aes(ymin = mean - sd,
         ymax = mean + sd),
     width = 0.2,
     linewidth = 0.7
   ) +
+  scale_fill_manual(values = c(
+    "DI Water" = "firebrick",
+    "Stock" = "grey65",
+    "0.15 wt % GO" = "skyblue",
+    "0.2 wt % GO" = "skyblue",
+    "0.5 wt % GO" = "skyblue",
+    "1.95 wt % SA" = "goldenrod1",
+    "5.85 wt % SA" = "goldenrod1",
+    "9.75 wt % SA" = "goldenrod1",
+    "1.95 wt % SA + 0.1 wt % GO" = "seagreen3",
+    "9.75 wt % SA + 0.1 wt % GO" = "seagreen3"
+  )) +
   labs(
     x = "",
     y = "Tensile Strength (N)") +
