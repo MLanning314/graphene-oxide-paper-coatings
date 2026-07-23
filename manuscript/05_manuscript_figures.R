@@ -6,9 +6,11 @@ library(tidyverse)
 library(here)
 library(car)
 library(patchwork)
+library(ggpattern)
 
 ## Load data ----
 load(here("manuscript/data/tensile_burst_index.rda"))
+load(here("manuscript/data/tensile_data_clammp.rda"))
 load(here("manuscript/data/absorption_data_RF.rda"))
 load(here("manuscript/data/absorption_RF_fig.rda"))
 
@@ -104,11 +106,35 @@ fig_2_summary <- tensile_data_clammp |>
     .groups = "drop"
   )
 
+# separating into regular and combination coatings for pattern
+combo_fig2 <- fig_2_summary |>
+  filter(grepl("SA \\+ 0.1 wt % GO", coating))
+
+regular_fig2 <- fig_2_summary |>
+  filter(!grepl("SA \\+ 0.1 wt % GO", coating))
+
 # plotting data for figure 2
-fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean, fill = coating)) +
-  geom_col(width = 0.7) +
+fig_2 <- ggplot() +
+  geom_col(
+    data = regular_fig2,
+    aes(x = coating, y = mean, fill = coating),
+    width = 0.7
+  ) +
+  geom_col_pattern(
+    data = combo_fig2,
+    aes(x = coating, y = mean, fill = coating),
+    width = 0.7,
+    pattern = "stripe",
+    pattern_fill = "#BFE3F5",
+    pattern_colour = "#BFE3F5",
+    pattern_angle = 45,
+    pattern_density = 0.2,
+    pattern_spacing = 0.04
+  ) +
   geom_errorbar(
-    aes(ymin = mean - sd,
+    data = fig_2_summary,
+    aes(x = coating,
+        ymin = mean - sd,
         ymax = mean + sd),
     width = 0.2,
     linewidth = 0.7
@@ -116,14 +142,17 @@ fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean, fill = coating)) +
   scale_fill_manual(values = c(
     "DI Water" = "firebrick",
     "Stock" = "grey65",
-    "0.15 wt % GO" = "skyblue",
-    "0.2 wt % GO" = "skyblue",
-    "0.5 wt % GO" = "skyblue",
-    "1.95 wt % SA" = "goldenrod1",
-    "5.85 wt % SA" = "goldenrod1",
-    "9.75 wt % SA" = "goldenrod1",
-    "1.95 wt % SA + 0.1 wt % GO" = "seagreen3",
-    "9.75 wt % SA + 0.1 wt % GO" = "seagreen3"
+    
+    "0.15 wt % GO" = "#BFE3F5",
+    "0.2 wt % GO" = "#4FA3D1",
+    "0.5 wt % GO" = "#005B96",
+    
+    "1.95 wt % SA" = "#FFF2A6",
+    "5.85 wt % SA" = "#F5C200",
+    "9.75 wt % SA" = "#D99A00",
+    
+    "1.95 wt % SA + 0.1 wt % GO" = "#FFF2A6",
+    "9.75 wt % SA + 0.1 wt % GO" = "#D99A00"
   )) +
   labs(
     x = "",
@@ -131,9 +160,10 @@ fig_2 <- ggplot(fig_2_summary, aes(x = coating, y = mean, fill = coating)) +
   theme_classic(base_size = 15) +
   theme(
     legend.position = "none",
-    axis.title.y = element_text(size = 16, face = "plain"),
-    axis.text.x = element_text(angle = 45, hjust = 1, color = "black")
-  )
+    axis.title.y = element_text(size = 16),
+    axis.text.x = element_text(angle = 45,
+                               hjust = 1,
+                               color = "black"))
 
 ggsave("manuscript/figures/fig_2.png", plot = fig_2,
        width = 10, height = 6, units = "in", dpi = 600)
@@ -197,8 +227,8 @@ fig_3a <- ggplot(fig_3a_summary, aes(x = xpos, y = mean_strength, fill = conditi
   labs(x = "", y = "Tensile Index (N.m/g)") +
   theme_minimal(base_size = 20) +
   theme(axis.text.x = element_blank(),
-        axis.text.y = element_text(size = 15),
-        axis.title.y = element_text(size = 16),
+        axis.text.y = element_text(size = 28),
+        axis.title.y = element_text(size = 30),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank(),
@@ -265,11 +295,11 @@ fig_3b <- ggplot(fig_3b_summary, aes(x = xpos, y = mean_strength, fill = conditi
   scale_y_continuous(expand = expansion(mult = c(0, 0.05)), limits = c(0, 5),
                      breaks = seq(0, 5, by = 1)) +
   labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
-  theme_minimal(base_size = 20) +
-  theme(axis.text.x = element_text(size = 14,
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 28,
                                    angle = 45, hjust = 1, color = "black"),
-        axis.text.y = element_text(size = 15),
-        axis.title.y = element_text(size = 16),
+        axis.text.y = element_text(size = 28),
+        axis.title.y = element_text(size = 30),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank(),
