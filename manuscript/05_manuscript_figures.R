@@ -204,12 +204,12 @@ fig_3a <- ggplot(fig_3a_summary, aes(x = xpos, y = mean_strength, fill = conditi
   geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
                 width = 0.2, size = 0.5) +
   scale_fill_manual(values = c(
-    "ASA + 0 wt % GO" = "goldenrod1",
-    "AKD + 0 wt % GO" = "goldenrod1",
-    "ASA + 0.1 wt % GO" = "firebrick",
-    "AKD + 0.1 wt % GO" = "firebrick",
-    "ASA + 0.2 wt % GO" = "seagreen2",
-    "AKD + 0.2 wt % GO" = "seagreen2"
+    "ASA + 0 wt % GO" = "#BFE3F5",
+    "AKD + 0 wt % GO" = "#BFE3F5",
+    "ASA + 0.1 wt % GO" = "#4FA3D1",
+    "AKD + 0.1 wt % GO" = "#4FA3D1",
+    "ASA + 0.2 wt % GO" = "#005B96",
+    "AKD + 0.2 wt % GO" = "#005B96"
   )) +
   scale_x_continuous(
     breaks = c(1, 2, 3, 5, 6, 7),
@@ -227,8 +227,8 @@ fig_3a <- ggplot(fig_3a_summary, aes(x = xpos, y = mean_strength, fill = conditi
   labs(x = "", y = "Tensile Index (N.m/g)") +
   theme_minimal(base_size = 20) +
   theme(axis.text.x = element_blank(),
-        axis.text.y = element_text(size = 28),
-        axis.title.y = element_text(size = 30),
+        axis.text.y = element_text(size = 24),
+        axis.title.y = element_text(size = 26),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank(),
@@ -274,12 +274,12 @@ fig_3b <- ggplot(fig_3b_summary, aes(x = xpos, y = mean_strength, fill = conditi
   geom_errorbar(aes(ymin = mean_strength - sd_strength, ymax = mean_strength + sd_strength),
                 width = 0.2, size = 0.5) +
   scale_fill_manual(values = c(
-    "ASA + 0 wt % GO" = "goldenrod1",
-    "AKD + 0 wt % GO" = "goldenrod1",
-    "ASA + 0.1 wt % GO" = "firebrick",
-    "AKD + 0.1 wt % GO" = "firebrick",
-    "ASA + 0.2 wt % GO" = "seagreen2",
-    "AKD + 0.2 wt % GO" = "seagreen2"
+    "ASA + 0 wt % GO" = "#BFE3F5",
+    "AKD + 0 wt % GO" = "#BFE3F5",
+    "ASA + 0.1 wt % GO" = "#4FA3D1",
+    "AKD + 0.1 wt % GO" = "#4FA3D1",
+    "ASA + 0.2 wt % GO" = "#005B96",
+    "AKD + 0.2 wt % GO" = "#005B96"
   )) +
   scale_x_continuous(
     breaks = c(1, 2, 3, 5, 6, 7),
@@ -296,10 +296,10 @@ fig_3b <- ggplot(fig_3b_summary, aes(x = xpos, y = mean_strength, fill = conditi
                      breaks = seq(0, 5, by = 1)) +
   labs(x = "", y = expression(Burst~Index~(kPa %.% m^2 / g))) +
   theme_minimal() +
-  theme(axis.text.x = element_text(size = 28,
+  theme(axis.text.x = element_text(size = 24,
                                    angle = 45, hjust = 1, color = "black"),
-        axis.text.y = element_text(size = 28),
-        axis.title.y = element_text(size = 30),
+        axis.text.y = element_text(size = 24),
+        axis.title.y = element_text(size = 26),
         legend.position = "none",
         panel.grid.major = element_blank(),   
         panel.grid.minor = element_blank(),
